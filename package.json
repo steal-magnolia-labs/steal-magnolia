@@ -1,0 +1,40 @@
+{
+  "name": "magnolia",
+  "version": "1.0.0",
+  "description": "Reduce cognitive load as you develop your React apps by visualizing your component tree in a beautiful interface.",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon server/server.js",
+    "dev": "NODE_ENV=development webpack-dev-server --open --inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magnolia-labs/Magnolia.git"
+  },
+  "keywords": [
+    "React",
+    "tree",
+    "visualization",
+    "D3"
+  ],
+  "author": "Conor Sexton, Alice Wong, Alena Budzko, Kate Matthews",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/magnolia-labs/Magnolia/issues"
+  },
+  "homepage": "https://github.com/magnolia-labs/Magnolia#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
+  }
+}
