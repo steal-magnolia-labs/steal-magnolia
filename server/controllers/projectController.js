@@ -81,6 +81,10 @@ projectController.updateProject = (req, res) => {
           WHERE id = $1;`,
   [id, name, stateful, props, count])
     .then((data) => {
+      return res.json(data);
+    })
+    .catch(err => console.log(' error is ', err));
+  
       db.many(`SELECT * FROM nodes 
       WHERE project_id = $1
       ORDER BY id`, projectId)

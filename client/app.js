@@ -39,6 +39,9 @@ const LogoutBtn = styled.button`
   border: none;
   font-family: 'Raleway', sans-serif;
   font-size: 16px;
+  :focus{
+    outline: none;
+  }
 `
 
 const Header = styled.header`
