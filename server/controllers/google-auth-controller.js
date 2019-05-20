@@ -23,8 +23,10 @@ authController.getToken = (req, res, next) => {
         jwt = jwt.split('.')[1];
         const base64 = Buffer.from(jwt, 'base64').toString();
         const email = JSON.parse(base64).email;
-        console.log(email);
-        res.cookie('jwt', jwt, { expires: new Date(Date.now() + 900000) })
+        res.locals.email = email;
+        res.cookie('email', email);
+        res.cookie('jwt', jwt, { expires: new Date(Date.now() + 900000) });
+        return next();
     })
     .catch((err) => {console.log('The error in getting the Token', err)})
 }
