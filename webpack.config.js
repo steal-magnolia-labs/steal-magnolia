@@ -13,7 +13,7 @@ module.exports = {
     publicPath: '/build/',
     index: 'index.html',
     proxy: {
-      '/api': 'http://localhost:3000',
+      '/': 'http://localhost:3000',
     },
   },
   module: {

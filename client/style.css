@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.link,
+.right-link {
+    text-decoration: none;
+    color: white;
+}
+
+.right-link {
+    margin: 0px 10px;
+}
+
+.right-link:hover {
+    font-weight: bold;
+}
+
+.field:focus {
+    outline: none;
+}
+
+.field {
+    border: none;
+    border-bottom: 1px solid #283044;
+    padding: 5px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+}

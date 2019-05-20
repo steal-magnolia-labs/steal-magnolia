@@ -13,11 +13,12 @@ const authController = require('./controllers/google-auth-controller');
 
 const app = express();
 app.use(cookieParser());
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/build', express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
-
+app.get('/client/style.css', (req, res) => res.sendFile(path.join(__dirname, '../client/style.css')));
 
 // Routes dealing with users
 app.get('/google-init', authController.getCode);

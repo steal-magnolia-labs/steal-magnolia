@@ -3,17 +3,24 @@ const db = require('../database');
 const projectController = {};
 
 projectController.getAllProjects = (req, res) => {
-  const userId = req.cookies.user_id;
+  const userId = req.cookies.id;
   db.many('SELECT * FROM projects WHERE user_id = $1', userId)
     .then((data) => {
       console.log('Project info retrieved from db: ', data);
-      res.json(data);
+      const response = data.map((proj) => {
+        const formatted = {
+          project_id: proj.id,
+          project_name: proj.name,
+        };
+        return formatted;
+      });
+      res.json(response);
     })
     .catch(error => res.send('Error getting project list: ', error));
 };
 
 projectController.newProject = (req, res) => {
-  const userId = req.cookies.user_id;
+  const userId = req.cookies.id;
   db.one(`INSERT INTO projects(user_id, name) 
           VALUES($1, $2) 
           RETURNING "id", "user_id", "name", "created_at";`,
@@ -31,15 +38,17 @@ projectController.newProject = (req, res) => {
 };
 
 projectController.updateProject = (req, res) => {
-  const updatedProject = req.body.projectInfo;
+
   const {
-    id, projectId, parentId, name, stateful, state, props, count,
-  } = updatedProject;
+    id, name, stateful, props, count,
+  } = req.body;
+
+  console.log(' req body in update ', req.body)
 
   db.one(`UPDATE nodes
-          SET project_id = $2, parent_id = $3, name = $4, stateful = $5, state = $6, props = $7, count = $8
+          SET name = $2, stateful = $3, props = $4, count = $5
           WHERE id = $1;`,
-  [id, projectId, parentId, name, stateful, state, props, count])
+  [id, name, stateful, props, count])
     .then((data) => {
       console.log(data);
       return res.json(data);

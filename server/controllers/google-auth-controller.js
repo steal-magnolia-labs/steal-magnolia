@@ -5,6 +5,7 @@ const clientID = '367617815829-730pkn7dkfaupsji6eon9b33vhpc8gru.apps.googleuserc
 const clientSecret = 'Zerdhm_ou81oh_aUDYAoaNBV';
 
 authController.getCode = (req, res, next) => {
+    console.log(' in the auth controller ')
     axios.get('https://accounts.google.com/o/oauth2/v2/auth?client_id=367617815829-730pkn7dkfaupsji6eon9b33vhpc8gru.apps.googleusercontent.com&response_type=code&scope=openid%20email&redirect_uri=http://localhost:3000/homepage')
     .then((response) => {
         res.send(response.data);

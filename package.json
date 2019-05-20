@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "nodemon server/server.js",
-    "dev": "NODE_ENV=development webpack-dev-server --open --inline"
+    "dev": "NODE_ENV=development webpack-dev-server --open --inline",
+    "build": "NODE_ENV=production webpack"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,8 @@
     "pg-promise": "^8.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "styled-components": "^4.2.0",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1"
