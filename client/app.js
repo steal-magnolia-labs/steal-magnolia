@@ -1,12 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import styled from 'styled-components';
 
 // Importing components utilized in this page
 import Login from './login.js';
 import Homepage from './containers/homepage.js';
 import ProjectCanvas from './containers/project.js';
-import TitleBarComponent from './components/TitleBarComponent';
+import TitleBarComponent from './components/TitleBarComponent.jsx';
 
 const App = () => (
     <Router>
