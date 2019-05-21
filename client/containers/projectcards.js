@@ -18,15 +18,16 @@ const ProjectCards = ({ addNewProject }) => {
   useEffect(() => {
 
     const metaData = {
-        'method': 'GET',
-        'Content-type': 'application/json'
+      'method': 'GET',
+      'header': {
+        'Content-Type': 'application/json',
+      },
     }
 
     fetch('/getallprojects', metaData)
         .then(response => response.json())
         .then(response => setAllProjects(response))
         .catch(err => console.log('error in getting the projects', err))
-
    }, []);
     
   const renderRedirect = () => {
