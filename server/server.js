@@ -18,7 +18,9 @@ app.use(bodyParser.json());
 
 app.use('/build', express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
-app.get('/client/style.css', (req, res) => res.sendFile(path.join(__dirname, '../client/style.css')));
+app.get('/client/style.css', (req, res) =>
+  res.sendFile(path.join(__dirname, '../client/style.css'))
+);
 
 // Routes dealing with users
 app.get('/google-init', authController.getCode);
@@ -34,7 +36,15 @@ app.post('/updateproject/:projectid', projectController.updateProject);
 app.post('/newnode/:projectid', projectController.newNode);
 
 // Catch-all for React router
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, './../index.html')));
-
+app.get('*', (req, res) => {
+  console.log(' i am the catch all ');
+  return res
+    .set('Content-Type', 'text/html')
+    .sendFile(path.join(__dirname, './../index.html'));
+  //   res
+  //     .status(200)
+  //     .set('text/plain')
+  //     .end('im don');
+});
 
 app.listen(3000, () => console.log('Listening on port 3000...'));
