@@ -1,0 +1,57 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.link,
+.right-link {
+    text-decoration: none;
+    color: white;
+}
+
+.right-link {
+    margin: 0px 10px;
+}
+
+.right-link:hover {
+    font-weight: bold;
+}
+
+.field:focus {
+    outline: none;
+}
+
+.field {
+    border: none;
+    border-bottom: 1px solid #283044;
+    padding: 5px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+circle {
+  transition: all 0.2s ease-in-out;
+}
+line {
+  stroke: rgba(218, 208, 208, 0.5);
+  stroke-width: 2;
+}
+text {
+  fill: #575B5C;
+  text-anchor: middle;
+  font-family: 'SF Pro Display';
+  font-size: 16px;
+  font-weight: bold;
+}
+text.stateful {
+  fill: #B78A23;
+}
+
+text:hover {
+  cursor: pointer;
+}
+circle:hover {
+  cursor: pointer;
+}
