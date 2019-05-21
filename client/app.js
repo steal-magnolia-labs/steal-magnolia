@@ -11,9 +11,8 @@ const App = () => {
 
     const Logout = () => {
       console.log(' clicked log out ')
-      fetch('/logout')
+        fetch('/logout')
         .catch(err => console.log(err))
-
     }
 
     return (

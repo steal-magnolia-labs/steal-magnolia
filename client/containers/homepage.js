@@ -9,7 +9,7 @@ const Homepage = () => {
     const [projectID, setProjectID] = useState(null);
     //This state tracks if the page should be redirected
     const [redirect, setRedirect] = useState(false);
-    
+
     //This function will redirect the user to the correct page with the project ID
     const renderRedirect = () => {
         if(projectID){
@@ -23,7 +23,7 @@ const Homepage = () => {
     //This function adds a new project to the data base
     //The response is a single project ID
     const addNewProject = () => {
-        
+    
         const metaData = {
             'method': 'POST',
             'Content-type': 'application/json',

@@ -4,7 +4,7 @@ import Panel from './panel.js';
 import * as d3 from "d3";
 
 const ProjectCanvas = (props) => {
-
+    console.log('ProjectCanvas props: ', props )
     //This is the project ID selected
     const project_id = props.match.params.id;
 
@@ -27,9 +27,8 @@ const ProjectCanvas = (props) => {
     //This function will get the entire tree information
     //This will be called after every update
     useEffect(() => { 
-
+        
       // console.log('Got all the trees :)')
-
       const metaData = {
         'method': 'GET',
         'headers': {
@@ -39,10 +38,15 @@ const ProjectCanvas = (props) => {
 
       fetch(`/projects/${project_id}`, metaData)
         .then(response => response.json())
-        .then(response => UpdateProjectTree(response))
+        .then(response => {
+            console.log('fetch project response: ', response);
+            UpdateProjectTree(response)
+        })
         .catch(err => console.log('Error ', err))
 
     }, [projectUpdate]);
+
+        
 
     //This function will add a new node to the database
     const addNewNode = (e) => {
@@ -71,6 +75,7 @@ const ProjectCanvas = (props) => {
     //This function will update a current node to the database
     const updateNode = (e) => {
         e.preventDefault();
+        console.log('currentNode: ',currentNode)
         const metaData = {
             'method': 'POST',
             'headers': {
@@ -84,7 +89,6 @@ const ProjectCanvas = (props) => {
                 "props": e.target.elements.props.value
             })
         };
-
         fetch(`/updateproject/${project_id}`, metaData)
           .then(response => response.json())
           .then((response) => {
@@ -93,19 +97,19 @@ const ProjectCanvas = (props) => {
           })
           .catch(err => console.log('err', err))
         
-      // setProjectUpdate(true);
+      setProjectUpdate(true);
     }
 
     //This function will set the current node the user is viewing
     const setViewingNode = (e) => {
-      const node_id = e.data.id;
-      let currentNode = projectTree;
-      const findNode = (node = currentNode) => {
-        if (node.id === node_id) return currentNode = node;
-        node.children.forEach(child => findNode(child));
-      }
-    findNode();
-    changeCurrentNode(currentNode);
+        const node_id = e.data.id;
+        let currentNode = projectTree;
+        const findNode = (node = currentNode) => {
+            if (node.id === node_id) return currentNode = node;
+            node.children.forEach(child => findNode(child));
+        }
+        findNode();
+        changeCurrentNode(currentNode);
     }
 
     //This function will consistently update the current node on the form change
@@ -221,7 +225,7 @@ const ProjectCanvas = (props) => {
               </g>
             </svg>
             </Canvas>
-            <Panel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
+            <Panel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} updateNode={updateNode} currentNode={currentNode} />
         </BodyOfProject>
       </ProjectPage>
     )

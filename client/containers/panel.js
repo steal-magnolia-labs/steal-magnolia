@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const Panel = ({ addNewNode, saveProject, currentNode, onInputChangeName, onInputChangeCount, onInputChangeProps, onInputChangeState }) => { 
+const Panel = ({ addNewNode, updateNode, currentNode, onInputChangeName, onInputChangeCount, onInputChangeProps, onInputChangeState }) => { 
     const { count, name, id, parent_id, props, stateful } = currentNode;
     console.log('curr node ', currentNode)
     return (
       <RightPanel>
-        <NodeInfo onSubmit={saveProject}>
+        <NodeInfo onSubmit={updateNode}>
           <TextField>
             <span>Component Name: </span>
             <input className="field" type="text" name="componentName" id={id} value={name} onChange={onInputChangeName}></input>
