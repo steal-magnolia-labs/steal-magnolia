@@ -36,5 +36,4 @@ app.post('/newnode/:projectid', projectController.newNode);
 // Catch-all for React router
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, './../index.html')));
 
-
 app.listen(3000, () => console.log('Listening on port 3000...'));
