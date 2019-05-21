@@ -4,17 +4,17 @@ import styled from 'styled-components';
 
 const ProjectCards = ({ addNewProject }) => {
 
-  //This state tracks what current project the user is viewing
+  // This state tracks what current project the user is viewing
   const [projectID, setProjectID] = useState({
       project_id: null,
       redirect: false
   });
-  //This state tracks the list of project IDs and names
+  // This state tracks the list of project IDs and names
   const [allProjects, setAllProjects] = useState([]);
 
 
-  //This function will fetch all the current projects (after render)
-  //The response will be ID list of projects and their names
+  // This function will fetch all the current projects (after render)
+  // The response will be ID list of projects and their names
   useEffect(() => {
 
     const metaData = {
@@ -22,14 +22,14 @@ const ProjectCards = ({ addNewProject }) => {
       'header': {
         'Content-Type': 'application/json',
       },
-    }
+    };
 
     fetch('/getallprojects', metaData)
         .then(response => response.json())
         .then(response => setAllProjects(response))
         .catch(err => console.log('error in getting the projects', err))
    }, []);
-    
+
   const renderRedirect = () => {
     if(projectID.redirect){
       return <Redirect to={{
@@ -37,11 +37,12 @@ const ProjectCards = ({ addNewProject }) => {
         project: projectID
       }}/>;
     }
-  }
+  };
 
-  //This function gets a list of all the current projects and puts them into an array of dropdown options
+  // This function gets a list of all the current projects and puts them into an array of dropdown options
   const listOfProjects = allProjects.map(project => {
-    return <Project onClick={(e) => setProjectID({ project_id: e.target.value, redirect: true })} value={project.project_id}>{project.project_name}</Project>
+    return <Project onClick={(e) => setProjectID({ project_id: e.target.value, redirect: true })}
+                    value={project.project_id}>{project.project_name} </Project>
   });
 
   return (
@@ -49,13 +50,13 @@ const ProjectCards = ({ addNewProject }) => {
       {renderRedirect()}
       <ProjectTitle>
         My projects:
-        <NewProjectBtn onClick={addNewProject}>Start New Project</NewProjectBtn>
+        <NewProjectBtn onClick={addNewProject}> Start New Project </NewProjectBtn>
       </ProjectTitle>
       <ProjectList>
         {listOfProjects}
       </ProjectList>
     </ProjectSection>
-  ); // end of return
+  );
 }
 
 export default ProjectCards;
@@ -91,7 +92,6 @@ const ProjectList = styled.div`
   grid-template-columns: repeat(auto-fill, 200px);
   grid-gap: 20px;
   width: 80%;
-
 `
 
 const ProjectTitle = styled.div`

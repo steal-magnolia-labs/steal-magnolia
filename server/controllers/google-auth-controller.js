@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const authController = {}
+const authController = {};
 const clientID = '367617815829-730pkn7dkfaupsji6eon9b33vhpc8gru.apps.googleusercontent.com';
 const clientSecret = 'Zerdhm_ou81oh_aUDYAoaNBV';
 

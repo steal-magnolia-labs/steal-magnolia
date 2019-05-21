@@ -3,29 +3,24 @@ import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
 const Login = () => {
-
-    const authorizeWithGoogle = (props) => {
-
-      const metaData = {
-        'method': 'GET',
-        'Content-type': 'application/json',
-        'Accept': 'text/html'
-      }
-
-      fetch('/google-init', metaData)
-        .then(response => <Redirect to='/google-init' />)
-        .catch(err => console.error(err))
-
+  const authorizeWithGoogle = (props) => {
+    const metaData = {
+      'method': 'GET',
+      'Content-type': 'application/json',
+      'Accept': 'text/html'
     }
 
-    return (
-      <LoginScreen>
-        <WelcomeMessage>
-          Welcome to Magnolia Labs
-        </WelcomeMessage>
-        <LoginBtn onClick={authorizeWithGoogle}>Login with Google</LoginBtn>
-      </LoginScreen>
-    )
+    fetch('/google-init', metaData)
+      .then(response => <Redirect to='/google-init' />)
+      .catch(err => console.error('error in authorizeWithGoogle"', err));
+  }
+
+  return (
+    <LoginScreen>
+      <WelcomeMessage> Welcome to Magnolia Labs </WelcomeMessage>
+      <LoginBtn onClick={authorizeWithGoogle}> Login with Google </LoginBtn>
+    </LoginScreen>
+  )
 }
 
 export default Login;
