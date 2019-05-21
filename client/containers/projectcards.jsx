@@ -57,7 +57,10 @@ const ProjectCards = ({ addNewProject }) => {
       {renderRedirect()}
       <ProjectTitle>
         My projects:
-        <NewProjectBtn onClick={addNewProject}>Start New Project</NewProjectBtn>
+        <NewProjectBtn onClick={addNewProject}>
+          {' '}
+          Start New Project{' '}
+        </NewProjectBtn>
       </ProjectTitle>
       <ProjectList>{listOfProjects}</ProjectList>
     </ProjectSection>

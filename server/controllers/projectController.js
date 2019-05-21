@@ -16,19 +16,21 @@ function buildTree(dbRows) {
 
     this.children = [];
   }
+
   // Method to insert a new node in the proper place in the tree structure (recursively if necessary)
   TreeNode.prototype.add = function add(node) {
     if (node.parent_id === this.id) return this.children.push(node);
     return this.children.forEach(child => child.add(node));
   };
 
-  // when the i
   const root = new TreeNode(dbRows.shift());
+
   // Iterate through dbRows, turning each database entry into a TreeNode, and inserting them via the root
   dbRows.forEach(row => {
     const nodeToInsert = new TreeNode(row);
     root.add(nodeToInsert);
   });
+
   return root;
 }
 

@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components';
-import ProjectCards from './projectcards.js';
+import ProjectCards from './projectcards.jsx';
 
 const Homepage = () => {
   // This state tracks what current project the user is viewing
   const [projectID, setProjectID] = useState(null);
-  // This state tracks if the page should be redirected
-  const [redirect, setRedirect] = useState(false);
 
   // This function will redirect the user to the correct page with the project ID
   const renderRedirect = () => {
@@ -33,7 +30,7 @@ const Homepage = () => {
 
     fetch('/newproject', metaData)
       .then(response => response.json())
-      .then(response => setProjectID(response.project_id)) //The returned project ID
+      .then(response => setProjectID(response.project_id)) // The returned project ID
       .catch(err => console.log('err', err));
   };
 

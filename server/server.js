@@ -36,15 +36,8 @@ app.post('/updateproject/:projectid', projectController.updateProject);
 app.post('/newnode/:projectid', projectController.newNode);
 
 // Catch-all for React router
-app.get('*', (req, res) => {
-  console.log(' i am the catch all ');
-  return res
-    .set('Content-Type', 'text/html')
-    .sendFile(path.join(__dirname, './../index.html'));
-  //   res
-  //     .status(200)
-  //     .set('text/plain')
-  //     .end('im don');
-});
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, './../index.html'))
+);
 
 app.listen(3000, () => console.log('Listening on port 3000...'));

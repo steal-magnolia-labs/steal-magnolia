@@ -20,7 +20,7 @@ authController.getCode = (req, res, next) => {
 };
 
 authController.getToken = (req, res, next) => {
-  const {code} = req.query;
+  const { code } = req.query;
   // const sessionState = req.query.session_state;
   axios
     .post(
@@ -30,7 +30,7 @@ authController.getToken = (req, res, next) => {
       let jwt = response.data.id_token;
       jwt = jwt.split('.')[1];
       const base64 = Buffer.from(jwt, 'base64').toString();
-      const {email} = JSON.parse(base64);
+      const { email } = JSON.parse(base64);
       res.locals.email = email;
       res.cookie('email', email);
       res.cookie('jwt', jwt, { expires: new Date(Date.now() + 900000) });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Panel from './panel.js';
-import * as d3 from "d3";
+import * as d3 from 'd3';
 
 const ProjectCanvas = (props) => {
 
@@ -9,7 +9,7 @@ const ProjectCanvas = (props) => {
     const project_id = props.match.params.id;
 
     //This is the keep track of the current node we are on
-    const [currentNode, changeCurrentNode] = useState({ 
+    const [currentNode, changeCurrentNode] = useState({
         "id": 0,
         "parent_id": '',
         "name": '',
@@ -26,7 +26,7 @@ const ProjectCanvas = (props) => {
 
     //This function will get the entire tree information
     //This will be called after every update
-    useEffect(() => { 
+    useEffect(() => {
 
       // console.log('Got all the trees :)')
 
@@ -35,12 +35,12 @@ const ProjectCanvas = (props) => {
         'headers': {
           'Content-Type': 'application/json'
         },
-      }
+      };
 
       fetch(`/projects/${project_id}`, metaData)
         .then(response => response.json())
         .then(response => UpdateProjectTree(response))
-        .catch(err => console.log('Error ', err))
+        .catch(err => console.log('Error ', err));
 
     }, [projectUpdate]);
 
@@ -66,7 +66,7 @@ const ProjectCanvas = (props) => {
             .catch(err => console.log(err))
 
         console.log('new node added!!')
-    }
+    };
 
     //This function will update a current node to the database
     const updateNode = (e) => {
@@ -94,7 +94,7 @@ const ProjectCanvas = (props) => {
           .catch(err => console.log('err', err))
         
       // setProjectUpdate(true);
-    }
+    };
 
     //This function will set the current node the user is viewing
     const setViewingNode = (e) => {
@@ -106,7 +106,7 @@ const ProjectCanvas = (props) => {
       }
     findNode();
     changeCurrentNode(currentNode);
-    }
+    };
 
     //This function will consistently update the current node on the form change
 
@@ -115,21 +115,21 @@ const ProjectCanvas = (props) => {
             ...currentNode,
             "name": e.target.value
         })
-    }
+    };
 
     const onInputChangeCount = (e) => {
         changeCurrentNode({
             ...currentNode,
             "count": e.target.value
         })
-    }
+    };
 
     const onInputChangeProps = (e) => {
         changeCurrentNode({
             ...currentNode,
             "props": e.target.value
         })
-    }
+    };
 
     const onInputChangeState = (e) => {
 
@@ -137,7 +137,7 @@ const ProjectCanvas = (props) => {
             ...currentNode,
             "stateful": e.target.checked
         })
-    }
+    };
 
     const root = d3.hierarchy(projectTree);
     const tree = d3.tree();
