@@ -3,25 +3,25 @@ import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
 const Login = () => {
-  const authorizeWithGoogle = (props) => {
+  const authorizeWithGoogle = props => {
     const metaData = {
-      'method': 'GET',
+      method: 'GET',
       'Content-type': 'application/json',
-      'Accept': 'text/html'
-    }
+      Accept: 'text/html',
+    };
 
     fetch('/google-init', metaData)
-      .then(response => <Redirect to='/google-init' />)
-      .catch(err => console.error('error in authorizeWithGoogle"', err));
-  }
+      .then(response => <Redirect to="/google-init" />)
+      .catch(err => console.error(err));
+  };
 
   return (
     <LoginScreen>
-      <WelcomeMessage> Welcome to Magnolia Labs </WelcomeMessage>
-      <LoginBtn onClick={authorizeWithGoogle}> Login with Google </LoginBtn>
+      <WelcomeMessage>Welcome to Magnolia Labs</WelcomeMessage>
+      <LoginBtn onClick={authorizeWithGoogle}>Login with Google</LoginBtn>
     </LoginScreen>
-  )
-}
+  );
+};
 
 export default Login;
 
@@ -33,13 +33,13 @@ const LoginBtn = styled.button`
   font-size: 18px;
 
   :focus {
-    outline: none; 
+    outline: none;
   }
 
   :hover {
     box-shadow: 1px 2px 4px grey;
   }
-`
+`;
 
 const LoginScreen = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const LoginScreen = styled.div`
   height: 400px;
   background-color: #f8f9fb;
   border-radius: 3px;
-`
+`;
 
 const WelcomeMessage = styled.section`
   font-family: 'Raleway', sans-serif;
@@ -59,4 +59,4 @@ const WelcomeMessage = styled.section`
   padding: 100px 0px;
   font-size: 40px;
   background-color: white;
-`
+`;

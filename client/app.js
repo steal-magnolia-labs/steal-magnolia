@@ -8,16 +8,13 @@ import Homepage from './containers/homepage.js';
 import ProjectCanvas from './containers/project.js';
 import TitleBarComponent from './components/TitleBarComponent';
 
-
-const App = () => {
-  return (
+const App = () => (
     <Router>
       <TitleBarComponent />
       <Route path="/login" component={Login} />
       <Route path="/projectpage" component={Homepage} />
       <Route path="/project/:id" component={ProjectCanvas} />
     </Router>
-  )
-}
+  );
 
 export default App;
