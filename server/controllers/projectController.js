@@ -88,7 +88,7 @@ projectController.updateProject = (req, res) => {
     props2 = props;
   }
   else {
-    props2 = `'" + props + "'`
+    props2 = `'"` + props + `"'`
   };
 
   const yoQuery = `UPDATE nodes
