@@ -2,10 +2,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
+const graphqlHTTP = require('express-graphql');
 const projectController = require('./controllers/projectController.js');
 const userController = require('./controllers/user-controller.js');
 const authController = require('./controllers/google-auth-controller');
+// graphql shema
+const schema = require('./graphql/schema');
 
 // const db = require('./database');
 // Example query to show database is connected
@@ -20,6 +22,15 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 app.get('/client/style.css', (req, res) =>
   res.sendFile(path.join(__dirname, '../client/style.css'))
+);
+
+// This the qraphql endpoint
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+  })
 );
 
 // Routes dealing with users
