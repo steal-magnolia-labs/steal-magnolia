@@ -95,8 +95,10 @@ projectController.updateProject = (req, res) => {
      SET name = '${name}', stateful = ${stateful}, props = ${props2}, count = ${count}
      WHERE id = ${id};`
 
-  db.one(yoQuery)
-    // .then(data => res.json(data))
+  db.query(yoQuery)
+    .then(resp => {
+      if (resp.length !== 0) console.log('the response is:', resp)
+    })
     .catch(err => {
       console.log('Your database update query was:', yoQuery);
       console.log(' error is ', err);
@@ -135,6 +137,7 @@ projectController.newNode = (req, res) => {
     [projectId, parentId, 'App']
   )
     .then(data => {
+      console.log('insert query result', data);
       db.many(
         `SELECT * FROM nodes 
       WHERE project_id = $1

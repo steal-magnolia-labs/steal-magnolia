@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Panel = ({
+const NodeInfoPanel = ({
   addNewNode,
   saveProject,
   currentNode,
@@ -67,7 +67,7 @@ const Panel = ({
   );
 };
 
-export default Panel;
+export default NodeInfoPanel;
 
 const RightPanel = styled.div`
   width: 250px;
