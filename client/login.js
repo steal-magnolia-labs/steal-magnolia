@@ -3,31 +3,6 @@ import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
 const Login = () => {
-<<<<<<< HEAD
-  const authorizeWithGoogle = (props) => {
-
-    const metaData = {
-      'method': 'GET',
-      'Content-type': 'application/json',
-      'Accept': 'text/html'
-    }
-
-    fetch('/google-init', metaData)
-      .then(response => <Redirect to='/google-init' />)
-      .catch(err => console.error(err))
-
-  }
-
-  return (
-    <LoginScreen>
-      <WelcomeMessage>
-        Welcome to Magnolia Labs
-      </WelcomeMessage>
-      <LoginBtn onClick={authorizeWithGoogle}>Login with Google</LoginBtn>
-    </LoginScreen>
-  )
-}
-=======
   let [redirectNeeded, setRedirectNeeded] = useState(false);
 
   const authorizeWithGoogle = props => {
@@ -53,7 +28,6 @@ const Login = () => {
     </LoginScreen>
   );
 };
->>>>>>> dev
 
 export default Login;
 

@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Panel from './panel.js';
 import * as d3 from 'd3';
+import ReactD3Tree from './ReactD3Tree.js';
 
 const ProjectCanvas = (props) => {
 
   //This is the project ID selected
   const project_id = props.match.params.id;
-
   //This is the keep track of the current node we are on
   const [currentNode, changeCurrentNode] = useState({
     "id": 0,
@@ -24,29 +24,48 @@ const ProjectCanvas = (props) => {
   //This is to keep track of if the current tree has been updated
   const [projectUpdate, setProjectUpdate] = useState(false);
 
-  //This function will get the entire tree information
-  //This will be called after every update
+  // This will load the inital tree on the first load
   useEffect(() => {
-
     // console.log('Got all the trees :)')
-
     const metaData = {
     'method': 'GET',
     'headers': {
       'Content-Type': 'application/json'
     },
     };
-
     fetch(`/projects/${project_id}`, metaData)
     .then(response => response.json())
-    .then(response => UpdateProjectTree(response))
+    .then(response => {
+      UpdateProjectTree(response)
+      console.log('projectTree: ', projectTree)
+    })
+    .then(() => console.log('then projectTree: ', projectTree) )
     .catch(err => console.log('Error ', err));
+  }, []);
 
+
+  //This function will get the entire tree information
+  //This will be called after every update
+  useEffect(() => {
+    // console.log('Got all the trees :)')
+    const metaData = {
+    'method': 'GET',
+    'headers': {
+      'Content-Type': 'application/json'
+    },
+    };
+    fetch(`/projects/${project_id}`, metaData)
+    .then(response => response.json())
+    .then(response => {
+      UpdateProjectTree(response)
+      console.log('projectTree: ', projectTree)
+    })
+    .then(() => console.log('then projectTree: ', projectTree) )
+    .catch(err => console.log('Error ', err));
   }, [projectUpdate]);
 
   //This function will add a new node to the database
   const addNewNode = (e) => {
-    console.log('new node e: ', e)
     const parent_id = e.target.value;
     const metaData = {
       'method': 'POST',
@@ -57,7 +76,6 @@ const ProjectCanvas = (props) => {
         "parent_id": parent_id
       })
     }
-
     fetch(`/newnode/${project_id}`, metaData)
       .then(response => response.json())
       .then(response => {
@@ -72,8 +90,6 @@ const ProjectCanvas = (props) => {
   //This function will update a current node to the database
   const updateNode = (e) => {
     e.preventDefault();
-    console.log('updating node: ', e.target.elements)
-    console.log('currentnode: ', currentNode)
     const metaData = {
       'method': 'POST',
       'headers': {
@@ -96,7 +112,7 @@ const ProjectCanvas = (props) => {
       })
       .catch(err => console.log('err', err))
     
-  //   setProjectUpdate(true);
+    setProjectUpdate(true);
   };
 
   //This function will set the current node the user is viewing
@@ -107,8 +123,8 @@ const ProjectCanvas = (props) => {
     if (node.id === node_id) return currentNode = node;
     node.children.forEach(child => findNode(child));
     }
-  findNode();
-  changeCurrentNode(currentNode);
+    findNode();
+    changeCurrentNode(currentNode);
   };
 
   //This function will consistently update the current node on the form change
@@ -140,18 +156,15 @@ const ProjectCanvas = (props) => {
       "stateful": e.target.checked
     })
   };
-
-  const treeRoot = d3.hierarchy(projectTree);
+  // console.log('tree before d3', projectTree)
+  const root = d3.hierarchy(projectTree);
   const tree = d3.tree();
   
   tree.size([800, 850]);
-  tree(treeRoot);
-  console.log('tree: ', tree);
-  
-
+  tree(root);
   d3.select('svg g.nodes')
     .selectAll('circle.node')
-    .data(treeRoot.descendants())
+    .data(root.descendants())
     .enter()
     .append('g')
     .classed('node', true)
@@ -165,7 +178,7 @@ const ProjectCanvas = (props) => {
   
   d3.select('svg g.links')
     .selectAll('.link')
-    .data(treeRoot.links())
+    .data(root.links())
     .enter()
     .insert('line')
     .classed('link', true)
@@ -213,23 +226,46 @@ const ProjectCanvas = (props) => {
     .attr('cx', d => d.x)
     .attr('cy', d => d.y)
     .attr('r', 57.5);
+  console.log('tree right before render: ', projectTree)
 
-  return (
-     <ProjectPage>
-    <ProjectTitle>Project: {project_id}</ProjectTitle>
-    <BodyOfProject>
-      <Canvas id="content">
-        <svg width="850" height="1000">
-          <g transform="translate(60, 60)">
-          <g class="links"></g>
-          <g class="nodes"></g>
-        </g>
-      </svg>
-      </Canvas>
-      <Panel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
-    </BodyOfProject>
+  // if (projectTree) {
+    return (
+    <ProjectPage>
+      <ProjectTitle>Project: {project_id}</ProjectTitle>
+      <BodyOfProject>
+        <Canvas id="content">
+          <ReactD3Tree treeData={{projectTree}} />
+        </Canvas>
+      <Panel 
+        addNewNode={addNewNode} 
+        onInputChangeState={onInputChangeState} 
+        onInputChangeProps={onInputChangeProps} 
+        onInputChangeCount={onInputChangeCount} 
+        onInputChangeName={onInputChangeName} 
+        saveProject={updateNode} 
+        currentNode={currentNode}   
+      />
+      </BodyOfProject>
     </ProjectPage>
-  )
+    )
+  // // } else {
+    // return (
+    //   <ProjectPage>
+    //     <ProjectTitle>Project: {project_id}</ProjectTitle>
+    //     <BodyOfProject>
+    //     <Canvas id="content">
+    //       <svg width="800" height="1000">
+    //       <g transform="translate(60, 60)">
+    //         <g className="links"></g>
+    //         <g className="nodes"></g>
+    //       </g>
+    //       </svg>
+    //     </Canvas>
+    //     <Panel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
+    //     </BodyOfProject>
+    //   </ProjectPage>
+    // )
+  // }
 }
 
 export default ProjectCanvas;

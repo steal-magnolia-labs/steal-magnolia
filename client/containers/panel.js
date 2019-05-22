@@ -1,39 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-<<<<<<< HEAD
-
-const Panel = ({ addNewNode, updateNode, currentNode, onInputChangeName, onInputChangeCount, onInputChangeProps, onInputChangeState }) => { 
-    const { count, name, id, parent_id, props, stateful } = currentNode;
-    console.log('curr node ', currentNode)
-    return (
-      <RightPanel>
-        <NodeInfo onSubmit={updateNode}>
-          <TextField>
-            <span>Component Name: </span>
-            <input className="field" type="text" name="componentName" id={id} value={name} onChange={onInputChangeName}></input>
-          </TextField>
-
-          <label htmlFor="stateful">
-            <input type="checkbox" name="stateful" value="stateful" onChange={onInputChangeState} defaultChecked={stateful}></input>            
-            <span>Stateful?</span>
-          </label>
-          <TextField>
-            <span>How many components are there?:</span>
-            <input className="field" type="text" name="componentCount" onChange={onInputChangeCount} defaultValue={count}></input>
-          </TextField>
-
-          <TextField>
-            <span>Props:</span>
-            <input className="field" type="text" name="props" onChange={onInputChangeProps} defaultValue={props}></input>
-          </TextField>
-          <UpdateBtn>Update Component</UpdateBtn>
-        </NodeInfo>
-          <AddNodeBtn value={id} onClick={addNewNode}>Add Child Node</AddNodeBtn>
-      </RightPanel>
-    )
-}
-=======
 const Panel = ({
   addNewNode,
   saveProject,
@@ -98,7 +65,6 @@ const Panel = ({
     </RightPanel>
   );
 };
->>>>>>> dev
 
 export default Panel;
 

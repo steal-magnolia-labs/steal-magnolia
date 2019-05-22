@@ -86,19 +86,6 @@ projectController.updateProject = (req, res) => {
     `UPDATE nodes
           SET name = $2, stateful = $3, props = $4, count = $5
           WHERE id = $1;`,
-<<<<<<< HEAD
-  [id, name, stateful, props, count])
-    .then((data) => {
-      db.many(`SELECT * FROM nodes 
-      WHERE project_id = $1
-      ORDER BY id`, projectId)
-      .then((data) => {
-        const populatedTree = buildTree(data);
-        return res.json(populatedTree);
-      })
-    })
-    .catch(err => console.log(' error is ', err));
-=======
     [id, name, stateful, props, count]
   )
     .then(data => res.json(data))
@@ -110,7 +97,6 @@ projectController.updateProject = (req, res) => {
   //     const populatedTree = buildTree(data);
   //     res.json(populatedTree);
   //   });
->>>>>>> dev
 };
 
 projectController.retrieveProject = (req, res) => {
@@ -141,14 +127,6 @@ projectController.newNode = (req, res) => {
       db.many(
         `SELECT * FROM nodes 
       WHERE project_id = $1
-<<<<<<< HEAD
-      ORDER BY id`, projectId)
-        .then((data) => {
-          // maybe some async issues here?
-          const populatedTree = buildTree(data);
-          res.json(populatedTree);
-        });
-=======
       ORDER BY id`,
         projectId
       ).then(data => {
@@ -156,7 +134,6 @@ projectController.newNode = (req, res) => {
         console.log('populated tree is ', populatedTree);
         res.json(populatedTree);
       });
->>>>>>> dev
     })
     .catch(error => console.log('New project node error: ', error));
 };
