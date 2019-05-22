@@ -23,9 +23,11 @@ const NodeQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return db
           .query(`SELECT * FROM nodes WHERE id=${args.id}`)
-          .then(node => {
-            console.log('I am the query', node[0].id);
-            return {nodeId:node[0].id};
+          .then(node => 
+            // when return data make it comes back in the form type field expects
+             ({nodeId:node[0].id})
+          ).catch(err =>{
+              console.error('Internal database error')
           });
       },
     },
@@ -33,9 +35,9 @@ const NodeQuery = new GraphQLObjectType({
 });
 
 const NodeMutation = new GraphQLObjectType({
-  name: 'NodeDelete',
+  name: 'NodeMutation',
   fields: {
-    node: {
+    deleteNode: {
       type: NodeType,
       args: { id: { type: GraphQLInt } },
       resolve(parent, args) {
