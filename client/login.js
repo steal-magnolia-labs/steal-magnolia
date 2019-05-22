@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
 const Login = () => {
+  let [redirectNeeded, setRedirectNeeded] = useState(false);
+
   const authorizeWithGoogle = props => {
     const metaData = {
       method: 'GET',
@@ -11,14 +13,18 @@ const Login = () => {
     };
 
     fetch('/google-init', metaData)
-      .then(response => <Redirect to="/google-init" />)
-      .catch(err => console.error(err));
+      .then(response => {
+        // console.log('google-init-response:', response);
+        setRedirectNeeded(true);
+      })
+      .catch(err => console.error('google-init-error:', err));
   };
 
   return (
     <LoginScreen>
-      <WelcomeMessage>Welcome to Magnolia Labs</WelcomeMessage>
+      <WelcomeMessage>Welcome to <u>Steal</u> Magnolia Labs</WelcomeMessage>
       <LoginBtn onClick={authorizeWithGoogle}>Login with Google</LoginBtn>
+      {redirectNeeded && <Redirect to="/google-init" />}
     </LoginScreen>
   );
 };
@@ -53,10 +59,10 @@ const LoginScreen = styled.div`
 
 const WelcomeMessage = styled.section`
   font-family: 'Raleway', sans-serif;
-  min-width: 600px;
+  min-width: 650px;
   border: 1px solid black;
   text-align: center;
-  padding: 100px 0px;
+  padding: 70px 0px;
   font-size: 40px;
   background-color: white;
 `;

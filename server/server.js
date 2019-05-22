@@ -40,7 +40,7 @@ app.get('/logout', userController.logOutUser);
 // app.get('/projectspage')
 
 // Routes dealing with projects
-app.get('/projects/:projectid', projectController.retrieveProject);
+app.get('/projects/:projectid/', projectController.retrieveProject);
 app.get('/getallprojects', projectController.getAllProjects);
 app.post('/newproject', projectController.newProject);
 app.post('/updateproject/:projectid', projectController.updateProject);
