@@ -39,6 +39,7 @@
     "express": "^4.17.0",
     "pg-promise": "^8.7.2",
     "react": "^16.8.6",
+    "react-d3-library": "^1.1.8",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "styled-components": "^4.2.0",
