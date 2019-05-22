@@ -13,7 +13,7 @@ const TitleBarComponent = () => {
   return (
     <Header>
       <Link className="link" to="/login">
-        <Logo>Magnolia</Logo>
+        <Logo>Steal Magnolia</Logo>
       </Link>
       <RightNav>
         <Link className="right-link" to="/projectpage">Projects</Link>
