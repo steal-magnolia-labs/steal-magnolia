@@ -10,8 +10,12 @@ import TitleBarComponent from './components/TitleBarComponent.jsx';
 const App = () => (
     <Router>
       <TitleBarComponent />
-      <Route path="/login" component={Login} />
+      <Route path="/" exact component={Login} />
       <Route path="/projectpage" component={Homepage} />
+      <Route path='/google-init' component={() => {
+        window.location.href = 'http://localhost:3000/google-init';
+        return null;
+      }} />
       <Route path="/project/:id" component={ProjectCanvas} />
     </Router>
   );

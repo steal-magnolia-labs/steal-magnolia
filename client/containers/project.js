@@ -214,7 +214,7 @@ const ProjectCanvas = (props) => {
         <ProjectTitle>Project: {project_id}</ProjectTitle>
         <BodyOfProject>
             <Canvas id="content">
-              <svg width="850" height="1000">
+              <svg width="800" height="1000">
               <g transform="translate(60, 60)">
                 <g class="links"></g>
                 <g class="nodes"></g>

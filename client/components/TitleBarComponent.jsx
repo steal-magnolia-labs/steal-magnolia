@@ -12,8 +12,8 @@ const TitleBarComponent = () => {
 
   return (
     <Header>
-      <Link className="link" to="/login">
-        <Logo>Magnolia</Logo>
+      <Link className="link" to="/">
+        <Logo>Steal Magnolia</Logo>
       </Link>
       <RightNav>
         <Link className="right-link" to="/projectpage">Projects</Link>

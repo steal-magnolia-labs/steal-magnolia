@@ -7,6 +7,7 @@ const clientSecret = 'Zerdhm_ou81oh_aUDYAoaNBV';
 
 authController.getCode = (req, res, next) => {
   console.log(' in the auth controller ');
+  console.log('were about to hit the first homepage link!')
   axios
     .get(
       'https://accounts.google.com/o/oauth2/v2/auth?client_id=367617815829-730pkn7dkfaupsji6eon9b33vhpc8gru.apps.googleusercontent.com&response_type=code&scope=openid%20email&redirect_uri=http://localhost:3000/homepage'
@@ -24,15 +25,19 @@ authController.getToken = (req, res, next) => {
   // const sessionState = req.query.session_state;
   axios
     .post(
-      `https://www.googleapis.com/oauth2/v4/token?code=${code}&client_id=367617815829-730pkn7dkfaupsji6eon9b33vhpc8gru.apps.googleusercontent.com&client_secret=Zerdhm_ou81oh_aUDYAoaNBV&redirect_uri=http://localhost:3000/homepage&grant_type=authorization_code&Content-Type=application/x-www-form-urlencoded`
+      // access token url
+      `https://www.googleapis.com/oauth2/v4/token?code=${code}&client_id=367617815829-730pkn7dkfaupsji6eon9b33vhpc8gru.apps.googleusercontent.com&client_secret=${clientSecret}&redirect_uri=http://localhost:3000/homepage&grant_type=authorization_code&Content-Type=application/x-www-form-urlencoded`
     )
     .then(response => {
+      // Oauth slides: 5. GitHub responds to Server with Access Token
       let jwt = response.data.id_token;
       jwt = jwt.split('.')[1];
       const base64 = Buffer.from(jwt, 'base64').toString();
       const { email } = JSON.parse(base64);
       res.locals.email = email;
       res.cookie('email', email);
+      
+      // Oauth slides: 5. Server saves Token in Cookie
       res.cookie('jwt', jwt, { expires: new Date(Date.now() + 900000) });
       return next();
     })

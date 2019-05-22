@@ -1,5 +1,5 @@
 {
-  "name": "magnolia",
+  "name": "steal-magnolia",
   "version": "1.0.0",
   "description": "Reduce cognitive load as you develop your React apps by visualizing your component tree in a beautiful interface.",
   "main": "main.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/magnolia-labs/Magnolia.git"
+    "url": "git+https://github.com/steal-magnolia-labs/steal-magnolia.git"
   },
   "keywords": [
     "React",
@@ -18,12 +18,12 @@
     "visualization",
     "D3"
   ],
-  "author": "Conor Sexton, Alice Wong, Alena Budzko, Kate Matthews",
+  "author": "KATE MATTHEWS, Conor Sexton, Alice Wong, Alena Budzko, Jake Douglas, Joe Pavlisko, Tevin McQuilkin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/magnolia-labs/Magnolia/issues"
+    "url": "https://github.com/steal-magnolia-labs/steal-magnolia.git"
   },
-  "homepage": "https://github.com/magnolia-labs/Magnolia#readme",
+  "homepage": "https://github.com/steal-magnolia-labs/steal-magnolia#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",

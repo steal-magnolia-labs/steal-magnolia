@@ -81,15 +81,26 @@ projectController.newProject = (req, res) => {
 
 projectController.updateProject = (req, res) => {
   const { id, name, stateful, props, count } = req.body;
+  let props2;
+  if (props === '') {
+    props2 = null
+  } else if (typeof props2 === 'number') {
+    props2 = props;
+  }
+  else {
+    props2 = `'" + props + "'`
+  };
 
-  db.one(
-    `UPDATE nodes
-          SET name = $2, stateful = $3, props = $4, count = $5
-          WHERE id = $1;`,
-    [id, name, stateful, props, count]
-  )
-    .then(data => res.json(data))
-    .catch(err => console.log(' error is ', err));
+  const yoQuery = `UPDATE nodes
+     SET name = '${name}', stateful = ${stateful}, props = ${props2}, count = ${count}
+     WHERE id = ${id};`
+
+  db.one(yoQuery)
+    // .then(data => res.json(data))
+    .catch(err => {
+      console.log('Your database update query was:', yoQuery);
+      console.log(' error is ', err);
+    });
   // db.many(`SELECT * FROM nodes
   // WHERE project_id = $1
   // ORDER BY id`, projectId)
