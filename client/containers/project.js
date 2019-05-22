@@ -68,6 +68,40 @@ const ProjectCanvas = (props) => {
         console.log('new node added!!')
     };
 
+    //This function will delete a node (and its children) from the database
+    const deleteNode = (e) => {
+      const node_id = e.target.value;
+      console.log('node_id to delete is: ', node_id);
+      console.log('projectTree is: ', projectTree);
+
+      /* fetch('/graphql', metaData)
+          .then(response => response.json())
+          .then(response => {
+            console.log('Node successfully deleted');
+          })
+          .catch(err => console.log('Unable to delete node'));
+          })
+      */
+      let projectTreeCopy = Object.assign({}, projectTree);
+      let currentNode = projectTreeCopy;
+      let deleted;
+      const findNode = (node = currentNode) => {
+        if (node.id === node_id) return currentNode = {};
+        node.children.forEach((child, index) => {
+          // console.log(`in forEach child.id is ${child.id}, node_id is ${node_id}`)
+          if (child.id == node_id) {
+            // console.log('found it');
+            return deleted = node.children.splice(index, 1);
+          } 
+          findNode(child);
+        });
+      }
+      findNode();
+      console.log('deleted is ', deleted);
+      console.log('projectTreeCopy after this operation is: ', projectTreeCopy);
+      UpdateProjectTree(projectTreeCopy);
+    }
+
     //This function will update a current node to the database
     const updateNode = (e) => {
         e.preventDefault();
@@ -81,7 +115,7 @@ const ProjectCanvas = (props) => {
                 "name": e.target.elements.componentName.value,
                 "stateful": e.target.elements.stateful.checked,
                 "count": e.target.elements.componentCount.value,
-                "props": e.target.elements.props.value
+                "props": e.target.elements.props.value ? e.target.elements.props.value : '"',
             })
         };
 
@@ -221,7 +255,7 @@ const ProjectCanvas = (props) => {
               </g>
             </svg>
             </Canvas>
-            <Panel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
+            <Panel addNewNode={addNewNode} deleteNode={deleteNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
         </BodyOfProject>
       </ProjectPage>
     )
