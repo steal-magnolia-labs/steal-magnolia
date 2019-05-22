@@ -6,17 +6,17 @@ userController.logInUser = (req, res) => {
   const { email } = res.locals;
   db.one(
     `SELECT * FROM users
-          WHERE email=$1;`,
+     WHERE email=$1;`,
     email
   )
     .then(data => {
       res.cookie('id', data.id);
-      return res.json(data.id);
+      res.redirect('/projectpage');
     })
     .catch(error => {
       db.one(
         `INSERT INTO users(email)
-              VALUES($1) RETURNING id`,
+         VALUES($1) RETURNING id`,
         email
       ).then(data => {
         console.log('Successful user creation - your id is: ', data.id);
