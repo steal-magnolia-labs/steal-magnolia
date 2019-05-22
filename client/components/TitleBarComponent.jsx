@@ -12,7 +12,7 @@ const TitleBarComponent = () => {
 
   return (
     <Header>
-      <Link className="link" to="/login">
+      <Link className="link" to="/">
         <Logo>Steal Magnolia</Logo>
       </Link>
       <RightNav>
