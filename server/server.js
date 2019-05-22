@@ -33,6 +33,7 @@ app.get('/projects/:projectid/', projectController.retrieveProject);
 app.get('/getallprojects', projectController.getAllProjects);
 app.post('/newproject', projectController.newProject);
 app.post('/updateproject/:projectid', projectController.updateProject);
+app.post('/updateprojectname/:projectid', projectController.updateProjectName);
 app.post('/newnode/:projectid', projectController.newNode);
 
 // Catch-all for React router
