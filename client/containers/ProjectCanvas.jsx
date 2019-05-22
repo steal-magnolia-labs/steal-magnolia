@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Panel from './panel.js';
+import NodeInfoPanel from './NodeInfoPanel.jsx';
 import * as d3 from 'd3';
 
 const ProjectCanvas = (props) => {
@@ -55,7 +55,7 @@ const ProjectCanvas = (props) => {
             'body': JSON.stringify({
                 "parent_id": parent_id
             })
-        }
+        };
 
         fetch(`/newnode/${project_id}`, metaData)
             .then(response => response.json())
@@ -65,7 +65,7 @@ const ProjectCanvas = (props) => {
             }) //This triggers a event to get all tree values again
             .catch(err => console.log(err))
 
-        console.log('new node added!!')
+        console.log('new node added!!');
     };
 
     //This function will update a current node to the database
@@ -99,13 +99,13 @@ const ProjectCanvas = (props) => {
     //This function will set the current node the user is viewing
     const setViewingNode = (e) => {
       const node_id = e.data.id;
-      let currentNode = projectTree;
-      const findNode = (node = currentNode) => {
-        if (node.id === node_id) return currentNode = node;
+      let thisNode = projectTree;
+      const findNode = (node = thisNode) => {
+        if (node.id === node_id) return thisNode = node;
         node.children.forEach(child => findNode(child));
       }
-    findNode();
-    changeCurrentNode(currentNode);
+      findNode();
+      changeCurrentNode(thisNode);
     };
 
     //This function will consistently update the current node on the form change
@@ -221,7 +221,7 @@ const ProjectCanvas = (props) => {
               </g>
             </svg>
             </Canvas>
-            <Panel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
+            <NodeInfoPanel addNewNode={addNewNode} onInputChangeState={onInputChangeState} onInputChangeProps={onInputChangeProps} onInputChangeCount={onInputChangeCount} onInputChangeName={onInputChangeName} saveProject={updateNode} currentNode={currentNode} />
         </BodyOfProject>
       </ProjectPage>
     )
