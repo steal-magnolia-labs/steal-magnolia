@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
-import styled from 'styled-components';
-//Components utilized in this page
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// Importing components utilized in this page
 import Login from './login.js';
 import Homepage from './containers/homepage.js';
 import ProjectCanvas from './containers/project.js';
+<<<<<<< HEAD
 
 
 const App = () => {
@@ -30,37 +31,21 @@ const App = () => {
       </Router>
     )
 }
+=======
+import TitleBarComponent from './components/TitleBarComponent.jsx';
+
+const App = () => (
+    <Router>
+      <TitleBarComponent />
+      <Route path="/" exact component={Login} />
+      <Route path="/projectpage" component={Homepage} />
+      <Route path='/google-init' component={() => {
+        window.location.href = 'http://localhost:3000/google-init';
+        return null;
+      }} />
+      <Route path="/project/:id" component={ProjectCanvas} />
+    </Router>
+  );
+>>>>>>> dev
 
 export default App;
-
-const LogoutBtn = styled.button`
-  background-color: #847996;
-  border: none;
-  font-family: 'Raleway', sans-serif;
-  font-size: 16px;
-  :focus{
-    outline: none;
-  }
-`
-
-const Header = styled.header`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-family: 'Raleway', sans-serif;
-    padding: 20px;
-    border-radius: 3px;
-    background-color: #847996;
-`
-const Logo = styled.h2`
-  font-family: 'Raleway', sans-serif;
-  color: white;
-`
-
-const RightNav = styled.div`
-  display: flex;
-  width: 200px;
-  justify-content: flex-end;
-`
-

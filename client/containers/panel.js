@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+<<<<<<< HEAD
 
 const Panel = ({ addNewNode, updateNode, currentNode, onInputChangeName, onInputChangeCount, onInputChangeProps, onInputChangeState }) => { 
     const { count, name, id, parent_id, props, stateful } = currentNode;
@@ -32,6 +33,72 @@ const Panel = ({ addNewNode, updateNode, currentNode, onInputChangeName, onInput
       </RightPanel>
     )
 }
+=======
+const Panel = ({
+  addNewNode,
+  saveProject,
+  currentNode,
+  onInputChangeName,
+  onInputChangeCount,
+  onInputChangeProps,
+  onInputChangeState,
+}) => {
+  const { count, name, id, parent_id, props, stateful } = currentNode;
+  return (
+    <RightPanel>
+      <NodeInfo onSubmit={saveProject}>
+        <TextField>
+          <span>Component Name: </span>
+          <input
+            className="field"
+            type="text"
+            name="componentName"
+            id={id}
+            value={name}
+            onChange={onInputChangeName}
+          />
+        </TextField>
+
+        <label htmlFor="stateful">
+          <input
+            type="checkbox"
+            name="stateful"
+            value="stateful"
+            onChange={onInputChangeState}
+            defaultChecked={stateful}
+          />
+          <span>Stateful?</span>
+        </label>
+        <TextField>
+          <span>How many components are there?:</span>
+          <input
+            className="field"
+            type="text"
+            name="componentCount"
+            onChange={onInputChangeCount}
+            defaultValue={count}
+          />
+        </TextField>
+
+        <TextField>
+          <span>Props:</span>
+          <input
+            className="field"
+            type="text"
+            name="props"
+            onChange={onInputChangeProps}
+            defaultValue={props}
+          />
+        </TextField>
+        <UpdateBtn>Update Component</UpdateBtn>
+      </NodeInfo>
+      <AddNodeBtn value={id} onClick={addNewNode}>
+        Add Child Node
+      </AddNodeBtn>
+    </RightPanel>
+  );
+};
+>>>>>>> dev
 
 export default Panel;
 
@@ -41,8 +108,7 @@ const RightPanel = styled.div`
   font-size: 13px;
   border-left: 1px solid black;
   font-family: 'Raleway', sans-serif;
-
-`
+`;
 
 const NodeInfo = styled.form`
   display: flex;
@@ -50,49 +116,47 @@ const NodeInfo = styled.form`
   height: 300px;
   justify-content: space-between;
   padding: 10px;
-
-`
-
+`;
 
 const AddNodeBtn = styled.button`
-  border: 1px solid #680E4B;
+  border: 1px solid #680e4b;
   border-radius: 3px;
   padding: 10px;
   width: auto;
-  color: #680E4B;
+  color: #680e4b;
   transition: 0.3s;
   margin-top: 100px;
   margin-left: 50px;
 
-  :focus{
+  :focus {
     outline: none;
   }
 
   :hover {
     box-shadow: 1px 2px 10px grey;
   }
-`
+`;
 const UpdateBtn = styled.button`
-  border: 1px solid #680E4B;
+  border: 1px solid #680e4b;
   border-radius: 3px;
   padding: 10px;
   width: auto;
   color: white;
   transition: 0.3s;
   margin-top: 15px;
-  background-color: #680E4B;
+  background-color: #680e4b;
 
-  :focus{
+  :focus {
     outline: none;
   }
 
   :hover {
     box-shadow: 1px 2px 10px grey;
   }
-`
+`;
 
 const TextField = styled.label`
   display: flex;
   flex-direction: column;
   padding: 20px 0px;
-`
+`;
