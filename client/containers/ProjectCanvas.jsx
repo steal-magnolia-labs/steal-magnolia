@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NodeInfoPanel from './NodeInfoPanel.jsx';
 import * as d3 from 'd3';
@@ -32,27 +32,6 @@ const ProjectCanvas = (props) => {
 
   //This is to keep track of the project name
   const [projectName, changeProjectName] = useState("");
-
-  // Attempt at auto refresh
-  const useInterval = (callback, delay) => {
-    const savedCallback = useRef();
-  
-    // Remember the latest callback.
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-  
-    // Set up the interval.
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
 
   //This is to keep track of the current project tree
   const [projectTree, UpdateProjectTree] = useState([]);
@@ -314,8 +293,6 @@ const deleteNode = (e) => {
     .attr('cx', d => d.x)
     .attr('cy', d => d.y)
     .attr('r', 57.5);
-
-  // console.log('project name: ', projectName)
   
   return (
     <ProjectPage>
@@ -399,11 +376,9 @@ const UpdateBtn = styled.button`
   transition: 0.3s;
   margin-top: 15px;
   background-color: #680e4b;
-
   :focus {
     outline: none;
   }
-
   :hover {
     box-shadow: 1px 2px 10px grey;
   }
