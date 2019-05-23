@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+import ProjectCardComponent from './../components/ProjectCardComponent.jsx';
+import NewProjectBtn from './../components/NewProjectBtn.jsx';
 
 const ProjectCards = ({ addNewProject }) => {
   // This state tracks what current project the user is viewing
@@ -42,25 +44,22 @@ const ProjectCards = ({ addNewProject }) => {
 
   // This function gets a list of all the current projects and puts them into an array of dropdown options
   const listOfProjects = allProjects.map(project => (
-    <Project
+    <ProjectCardComponent
       onClick={e =>
         setProjectID({ project_id: e.target.value, redirect: true })
       }
       value={project.project_id}
     >
       {project.project_name}
-    </Project>
+    </ProjectCardComponent>
   ));
 
   return (
     <ProjectSection>
       {renderRedirect()}
-      <ProjectTitle>
+      <ProjectTitle >
         My projects:
-        <NewProjectBtn onClick={addNewProject}>
-          {' '}
-          Start New Project{' '}
-        </NewProjectBtn>
+        <NewProjectBtn onClick={addNewProject}> {' Start New Project '} </NewProjectBtn>
       </ProjectTitle>
       <ProjectList>{listOfProjects}</ProjectList>
     </ProjectSection>
@@ -68,26 +67,6 @@ const ProjectCards = ({ addNewProject }) => {
 };
 
 export default ProjectCards;
-
-const Project = styled.button`
-  width: 200px;
-  padding: 50px 10px 50px 10px;
-  background-color: #336e7b;
-  border-radius: 1px;
-  color: white;
-  font-family: 'Raleway', sans-serif;
-  transition: 0.3s;
-  font-size: 20px;
-
-  :focus {
-    outline: none;
-  }
-
-  :hover {
-    box-shadow: 1px 2px 10px grey;
-    font-weight: bold;
-  }
-`;
 
 const ProjectSection = styled.div`
   display: flex;
@@ -111,26 +90,4 @@ const ProjectTitle = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid grey;
-`;
-
-const NewProjectBtn = styled.button`
-  font-family: 'Raleway', sans-serif;
-  padding: 10px;
-  border-radius: 3px;
-  margin-left: 20px;
-  display: flex;
-  justify-content: flex-end;
-  border: 1px solid #680e4b;
-  transition: 0.3s;
-  background-color: #680e4b;
-  color: white;
-
-  :focus {
-    outline: none;
-  }
-
-  :hover {
-    box-shadow: 1px 2px 10px grey;
-    font-weight: bold;
-  }
 `;
