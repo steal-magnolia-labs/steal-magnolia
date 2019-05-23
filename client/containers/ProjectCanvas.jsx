@@ -130,8 +130,6 @@ const deleteNode = (e) => {
   }
 
 }
-
-
   //This function will update a current node to the database
   const updateNode = (e) => {
     e.preventDefault();
@@ -170,7 +168,7 @@ const deleteNode = (e) => {
     fetch(`/retrieveprojectname/${project_id}`, metaData)
       .then(response => response.json())
       .then((response) => {
-        // console.log('response: ', response)
+        console.log('response: ', response)
         changeProjectName(response[0].name);
       })
       .catch(err => console.log('err', err))
@@ -182,11 +180,10 @@ const deleteNode = (e) => {
     const node_id = e.data.id;
     let thisNode = projectTree;
     const findNode = (node = thisNode) => {
-    if (node.id === node_id) return thisNode = node;
-    node.children.forEach(child => findNode(child));
+      if (node.id === node_id) return thisNode = node;
+      node.children.forEach(child => findNode(child));
     }
     findNode();
-    console.log('node viewing now is : ', thisNode);
     changeCurrentNode(thisNode);
   };
 
@@ -263,7 +260,6 @@ const deleteNode = (e) => {
     return '#9DD3D9';
     })
     .on('click', setViewingNode)
-
   
   d3.selectAll('g.node')
     .append('text')
@@ -296,22 +292,24 @@ const deleteNode = (e) => {
   
   return (
     <ProjectPage>
-      <ProjectTitle>Project: {projectName}</ProjectTitle>
-      <TextField>
-        <span>Update Project Name</span>
-        <input
-          className="field"
-          type="text"
-          name="projectName"
-          onChange={(e) => onInputChangeProjectName(e)}
-        />
-      </TextField>
+      <div className="title-box">
+        <ProjectTitle>Project: {projectName}</ProjectTitle>
+        <TextField>
+          <span>Update Project Name</span>
+          <input
+            className="field"
+            type="text"
+            name="projectName"
+            onChange={(e) => onInputChangeProjectName(e)}
+          />
+        </TextField>
+      </div>
       <UpdateBtn name="projectName" onClick={e => updateProjectName(e)}>
         Submit
       </UpdateBtn>
       <BodyOfProject>
         <Canvas id="content">
-          <svg width="800" height="1000">
+          <svg width="1000" height="1000">
           <g transform="translate(60, 60)">
           <g className="links"></g>
           <g className="nodes"></g>
@@ -337,7 +335,7 @@ export default ProjectCanvas;
 
 //These are the styled components 
 const Canvas = styled.div`
-  width: 80%;
+  width: 1000px;
   background-color: #f8f9fb;
 ` 
 
@@ -345,11 +343,10 @@ const BodyOfProject = styled.div`
   display: flex;
   justify-content: space-around;
   align-content: flex-start;
-  width: 90%;
+  width: 1250px;
   margin: 30px;
-  border: 1px solid #283044;
   border-radius: 3px;
-  box-shadow: 2px 2px 3px #283044;
+  box-shadow: 2px 2px 6px #283044;
 `
 
 const ProjectTitle = styled.h1`
@@ -358,7 +355,6 @@ const ProjectTitle = styled.h1`
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
   font-size: 30px;
-  border-bottom: 1px solid grey;
 `
 
 const TextField = styled.label`
@@ -372,7 +368,7 @@ const UpdateBtn = styled.button`
   border: 1px solid #680e4b;
   border-radius: 3px;
   padding: 10px;
-  width: auto;
+  width: 200px;
   color: white;
   transition: 0.3s;
   margin-top: 15px;
@@ -382,6 +378,7 @@ const UpdateBtn = styled.button`
   }
   :hover {
     box-shadow: 1px 2px 10px grey;
+    cursor: pointer;
   }
 `;
 
@@ -417,5 +414,9 @@ const NodeWrapper = styled.div`
 `
 
 const ProjectPage = styled.div`
-  padding: 0px 40px;
+  display: grid;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 1200px;
 `

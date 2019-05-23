@@ -12,13 +12,15 @@ const TitleBarComponent = () => {
 
   return (
     <Header>
-      <Link className="link" to="/">
-        <Logo>Steal Magnolia</Logo>
-      </Link>
-      <RightNav>
-        <Link className="header-link" to="/projectpage">Projects</Link>
-        <LogoutBtn className="header-link" onClick={logoutOnClickFunction} >Logout</LogoutBtn>
-      </RightNav>
+      <div className='nav-container'>
+        <Link className="link" to="/">
+          <Logo>Steal Magnolia</Logo>
+        </Link>
+        <RightNav>
+          <Link className="header-link" to="/projectpage">Projects</Link>
+          <LogoutBtn className="header-link" onClick={logoutOnClickFunction} >Logout</LogoutBtn>
+        </RightNav>
+      </div>
     </Header>
   )
 }
@@ -32,16 +34,9 @@ const LogoutBtn = styled.button`
 `
 
 const Header = styled.header`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100px;
-    width: 100%;
-    font-family: 'Raleway', sans-serif;
-    color: #731A4B;
-    padding: 20px;
-    border-radius: 3px;
     background-color: #D9C7C5;
+    display: flex;
+    justify-content: center;
 `
 
 const Logo = styled.h2`
