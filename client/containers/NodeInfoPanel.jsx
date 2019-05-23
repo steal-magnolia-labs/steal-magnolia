@@ -11,7 +11,6 @@ const NodeInfoPanel = ({
   onInputChangeState,
 }) => {
   const { count, name, id, parent_id, props, stateful } = currentNode;
-  console.log('curr node ', currentNode);
   return (
     <RightPanel>
       <NodeInfo onSubmit={saveProject}>
