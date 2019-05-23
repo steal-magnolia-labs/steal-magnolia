@@ -2,10 +2,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
+const graphqlHTTP = require('express-graphql');
 const projectController = require('./controllers/projectController.js');
 const userController = require('./controllers/user-controller.js');
 const authController = require('./controllers/google-auth-controller');
+// graphql shema
+const schema = require('./graphql/schema');
 
 // const db = require('./database');
 // Example query to show database is connected
@@ -22,6 +24,15 @@ app.get('/client/style.css', (req, res) =>
   res.sendFile(path.join(__dirname, '../client/style.css'))
 );
 
+// This the qraphql endpoint
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+  })
+);
+
 // Routes dealing with users
 app.get('/google-init', authController.getCode);
 app.get('/homepage', authController.getToken, userController.logInUser);
@@ -31,8 +42,10 @@ app.get('/logout', userController.logOutUser);
 // Routes dealing with projects
 app.get('/projects/:projectid/', projectController.retrieveProject);
 app.get('/getallprojects', projectController.getAllProjects);
+app.get('/retrieveprojectname/:projectid', projectController.retrieveProjectName);
 app.post('/newproject', projectController.newProject);
 app.post('/updateproject/:projectid', projectController.updateProject);
+app.post('/updateprojectname/:projectid', projectController.updateProjectName);
 app.post('/newnode/:projectid', projectController.newNode);
 
 // Catch-all for React router

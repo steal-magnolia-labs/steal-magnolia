@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import ProjectCards from './projectcards.jsx';
+import ProjectCards from './ProjectCardsContainer.jsx';
 
 const Homepage = () => {
   // This state tracks what current project the user is viewing

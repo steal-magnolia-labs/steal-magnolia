@@ -83,20 +83,21 @@ projectController.updateProject = (req, res) => {
   const { id, name, stateful, props, count } = req.body;
   let props2;
   if (props === '') {
-    props2 = null
+    props2 = null;
   } else if (typeof props2 === 'number') {
     props2 = props;
+  } else {
+    props2 = `'"${props}"'`;
   }
-  else {
-    props2 = `'" + props + "'`
-  };
 
   const yoQuery = `UPDATE nodes
      SET name = '${name}', stateful = ${stateful}, props = ${props2}, count = ${count}
-     WHERE id = ${id};`
+     WHERE id = ${id};`;
 
-  db.one(yoQuery)
-    // .then(data => res.json(data))
+  db.query(yoQuery)
+    .then(resp => {
+      if (resp.length !== 0) console.log('the response is:', resp);
+    })
     .catch(err => {
       console.log('Your database update query was:', yoQuery);
       console.log(' error is ', err);
@@ -108,6 +109,36 @@ projectController.updateProject = (req, res) => {
   //     const populatedTree = buildTree(data);
   //     res.json(populatedTree);
   //   });
+};
+
+projectController.updateProjectName = (req, res) => {
+  const { id, name } = req.body;
+  const yoQuery = `UPDATE projects
+     SET name = '${name}'
+     WHERE id = ${id};`
+  db.query(yoQuery)
+    .then(resp => {
+      if (resp.length !== 0) console.log('the response is:', resp)
+    })
+    .catch(err => {
+      console.log('Your database update query was:', yoQuery);
+      console.log(' error is ', err);
+    });
+};
+
+projectController.retrieveProjectName = (req, res) => {
+  const projectId = req.params.projectid;
+  db.query(
+    `SELECT name FROM projects 
+           WHERE id = $1;`,
+    projectId
+  ).then(data => {
+    console.log('data ', data)
+    res.json(data);
+  })
+  .catch(err => {
+    console.log('error in retrieving name: ', err);
+  });
 };
 
 projectController.retrieveProject = (req, res) => {
@@ -127,26 +158,31 @@ projectController.retrieveProject = (req, res) => {
 projectController.newNode = (req, res) => {
   const projectId = req.params.projectid;
   const parentId = req.body.parent_id;
-
-  db.one(
-    `INSERT INTO nodes(project_id, parent_id, name) 
+  if (parentId !== '') {
+    console.log('I happend');
+    db.one(
+      `INSERT INTO nodes(project_id, parent_id, name) 
   VALUES($1, $2, $3) 
   RETURNING "id", "project_id", "parent_id", "name", "stateful", "state", "props", "count";`,
-    [projectId, parentId, 'App']
-  )
-    .then(data => {
-      db.many(
-        `SELECT * FROM nodes 
+      [projectId, parentId, 'App']
+    )
+      .then(data => {
+        console.log('insert query result', data);
+        db.many(
+          `SELECT * FROM nodes 
       WHERE project_id = $1
       ORDER BY id`,
-        projectId
-      ).then(data => {
-        const populatedTree = buildTree(data);
-        console.log('populated tree is ', populatedTree);
-        res.json(populatedTree);
-      });
-    })
-    .catch(error => console.log('New project node error: ', error));
+          projectId
+        ).then(data => {
+          const populatedTree = buildTree(data);
+          console.log('populated tree is ', populatedTree);
+          res.json(populatedTree);
+        });
+      })
+      .catch(error => console.log('New project node error: ', error));
+  } else {
+    return res.end();
+  }
 };
 
 module.exports = projectController;
