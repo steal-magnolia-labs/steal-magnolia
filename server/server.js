@@ -31,6 +31,7 @@ app.get('/logout', userController.logOutUser);
 // Routes dealing with projects
 app.get('/projects/:projectid/', projectController.retrieveProject);
 app.get('/getallprojects', projectController.getAllProjects);
+app.get('/retrieveprojectname/:projectid', projectController.retrieveProjectName);
 app.post('/newproject', projectController.newProject);
 app.post('/updateproject/:projectid', projectController.updateProject);
 app.post('/updateprojectname/:projectid', projectController.updateProjectName);

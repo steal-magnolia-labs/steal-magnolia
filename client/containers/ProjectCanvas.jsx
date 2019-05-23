@@ -8,25 +8,33 @@ const ProjectCanvas = (props) => {
   //This is the project ID selected
   const project_id = props.match.params.id;
 
-  //This is the keep track of the current node we are on
-  const [currentNode, changeCurrentNode] = useState({
-    "id": 0,
-    "parent_id": '',
-    "name": '',
-    "stateful": false,
-    "props": '',
-    "count": ''
-  });
+  const updateProjectName = (e) => {
+    e.preventDefault();
+    console.log('updating project name, projectName: ', projectName)
+    const metaData = {
+      'method': 'POST',
+      'headers': {
+        'Content-type': 'application/json'
+      },
+      'body': JSON.stringify({
+        "id": project_id,
+        "name": projectName
+      })
+    };
 
-  //This is to keep track of the current project tree
-  const [projectTree, UpdateProjectTree] = useState([]);
+    fetch(`/updateprojectname/${project_id}`, metaData)
+      .then(response => response.json())
+      .then((response) => {
+        console.log('updating project name');
+      })
+      .catch((err) => console.log('Error updating project name: ', err));
+  };
 
   //This is to keep track of the project name
   const [projectName, changeProjectName] = useState("");
 
-
-  //This is to keep track of if the current tree has been updated
-  const [projectUpdate, setProjectUpdate] = useState(false);
+  //This is to keep track of the current project tree
+  const [projectTree, UpdateProjectTree] = useState([]);
 
   //This function will get the entire tree information
   //This will be called after every update
@@ -42,9 +50,20 @@ const ProjectCanvas = (props) => {
     fetch(`/projects/${project_id}`, metaData)
     .then(response => response.json())
     .then(response => UpdateProjectTree(response))
+    .then(() => getProjectName())
     .catch(err => console.log('Error ', err));
 
   }, [projectUpdate]);
+
+  //This is the keep track of the current node we are on
+  const [currentNode, changeCurrentNode] = useState({
+    "id": 0,
+    "parent_id": '',
+    "name": '',
+    "stateful": false,
+    "props": '',
+    "count": ''
+  });
 
   //This function will add a new node to the database
   const addNewNode = (e) => {
@@ -69,6 +88,9 @@ const ProjectCanvas = (props) => {
 
     console.log('new node added!!');
   };
+
+  //This is to keep track of if the current tree has been updated
+  const [projectUpdate, setProjectUpdate] = useState(false);
 
   //This function will update a current node to the database
   const updateNode = (e) => {
@@ -98,29 +120,21 @@ const ProjectCanvas = (props) => {
     setProjectUpdate(true);
   };
 
-  const updateProjectName = (e) => {
-    e.preventDefault();
-    console.log('updating project name, projectName: ', projectName)
+  const getProjectName = () => {
     const metaData = {
-      'method': 'POST',
+      'method': 'GET',
       'headers': {
         'Content-type': 'application/json'
       },
-      'body': JSON.stringify({
-        "id": project_id,
-        "name": projectName
-      })
     };
-
-    fetch(`/updateprojectname/${project_id}`, metaData)
+    fetch(`/retrieveprojectname/${project_id}`, metaData)
       .then(response => response.json())
       .then((response) => {
-        if (projectUpdate) setProjectUpdate(false);
-        else setProjectUpdate(true);
+        console.log('response: ', response)
+        changeProjectName(response[0].name);
       })
       .catch(err => console.log('err', err))
-    
-    setProjectUpdate(true);
+      return () => console.log('finished updating project name');
   };
 
   //This function will set the current node the user is viewing
@@ -137,9 +151,7 @@ const ProjectCanvas = (props) => {
 
   // Change project name on form changes
   const onInputChangeProjectName = (e) => {
-    console.log('updating project name');
     changeProjectName (e.target.value);
-    console.log('projectName: ', projectName)
   };
 
   //This function will consistently update the current node on the form change
@@ -187,8 +199,7 @@ const ProjectCanvas = (props) => {
     .attr('cx', function (d) { return d.x; })
     .attr('cy', function (d) { return d.y; })
     .attr('r', d => d.data.count === 'variable' ? 47.5 : 50)
-    .style('stroke-width', 2);
-  
+    .style('stroke-width', 2); 
   
   d3.select('svg g.links')
     .selectAll('.link')
@@ -241,6 +252,8 @@ const ProjectCanvas = (props) => {
     .attr('cy', d => d.y)
     .attr('r', 57.5);
 
+  console.log('project name: ', projectName)
+  
   return (
     <ProjectPage>
       <ProjectTitle>Project: {projectName}</ProjectTitle>
@@ -254,7 +267,7 @@ const ProjectCanvas = (props) => {
         />
       </TextField>
       <UpdateBtn name="projectName" onClick={e => updateProjectName(e)}>
-        Update Project Name
+        Submit
       </UpdateBtn>
       <BodyOfProject>
         <Canvas id="content">
@@ -308,6 +321,7 @@ const ProjectTitle = styled.h1`
 
 const TextField = styled.label`
   display: flex;
+  width: 30%;
   flex-direction: column;
   padding: 20px 0px;
 `;
