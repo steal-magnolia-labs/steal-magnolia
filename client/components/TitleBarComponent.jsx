@@ -16,18 +16,16 @@ const TitleBarComponent = () => {
         <Logo>Steal Magnolia</Logo>
       </Link>
       <RightNav>
-        <Link className="right-link" to="/projectpage">Projects</Link>
-        <LogoutBtn className="right-link" onClick={logoutOnClickFunction} >Logout</LogoutBtn>
+        <Link className="header-link" to="/projectpage">Projects</Link>
+        <LogoutBtn className="header-link" onClick={logoutOnClickFunction} >Logout</LogoutBtn>
       </RightNav>
     </Header>
   )
 }
 
 const LogoutBtn = styled.button`
-  background-color: #847996;
+  background: none;
   border: none;
-  font-family: 'Raleway', sans-serif;
-  font-size: 16px;
   :focus{
     outline: none;
   }
@@ -37,16 +35,19 @@ const Header = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100px;
     width: 100%;
     font-family: 'Raleway', sans-serif;
+    color: #731A4B;
     padding: 20px;
     border-radius: 3px;
-    background-color: #847996;
+    background-color: #D9C7C5;
 `
 
 const Logo = styled.h2`
   font-family: 'Raleway', sans-serif;
-  color: white;
+  font-weight: 400;
+  color: #731A4B;
 `
 
 const RightNav = styled.div`

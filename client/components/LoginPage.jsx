@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import google from '../images/google.png';
+import logo from '../images/group.png';
 
 const Login = () => {
   let [redirectNeeded, setRedirectNeeded] = useState(false);
@@ -22,13 +23,20 @@ const Login = () => {
   };
 
   return (
-    <>
-      <LoginScreen>
-        <WelcomeMessage className="welcome">Welcome to <u>Steal</u> Magnolia Labs</WelcomeMessage>
-        <img className="google-button" src={google} onClick={authorizeWithGoogle} />
-        {redirectNeeded && <Redirect to="/google-init" />}
-      </LoginScreen>
-    </>
+    <div className='login-container'>
+      <div className='login-screen'>
+        <div className='welcome-box'>
+          <WelcomeMessage className="welcome"><u>STEAL</u> MAGNOLIA
+          </WelcomeMessage>
+          <img className="logo" id="rotating" src={logo} />
+          <img className="google-button" src={google} onClick={authorizeWithGoogle} />
+          {redirectNeeded && <Redirect to="/google-init" />}
+        </div>
+      </div>
+      <Footer>
+        Steal Magnolia Labs Copyright 2019
+      </Footer>
+    </div>
   );
 };
 
@@ -38,22 +46,23 @@ const LoginBtn = styled.button`
   background-image: url(${google}); 
 `;
 
-const LoginScreen = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-  background-color: #f8f9fb;
-  border-radius: 3px;
-`;
-
 const WelcomeMessage = styled.section`
   font-family: 'Raleway', sans-serif;
   min-width: 650px;
-  border: 1px solid black;
   text-align: center;
+  color: #731A4B;
   padding: 70px 0px;
-  font-size: 40px;
-  background-color: white;
+  font-size: 90px;
+  font-weight: 900;
+  letter-spacing: 3px;
+`;
+
+const Footer = styled.section`
+  font-family: 'Raleway', sans-serif;
+  min-width: 650px;
+  text-align: right;
+  padding: 70px 20px;
+  font-size: 20px;
+  color: #731A4B;
+  background-color: #D9C7C5;
 `;
