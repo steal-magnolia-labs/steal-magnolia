@@ -69,16 +69,19 @@ const ProjectCards = ({ addNewProject }) => {
 export default ProjectCards;
 
 const ProjectSection = styled.div`
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
-  padding: 0px 40px;
+
 `;
 
 const ProjectList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 200px);
-  grid-gap: 20px;
-  width: 80%;
+  justify-content: center;
+  grid-gap: 30px;
 `;
 
 const ProjectTitle = styled.div`

@@ -34,7 +34,7 @@ const Login = () => {
         </div>
       </div>
       <Footer>
-        Steal Magnolia Labs Copyright 2019
+        <span className='labs'>Steal Magnolia Labs</span>   Copyright 2019
       </Footer>
     </div>
   );
@@ -60,9 +60,10 @@ const WelcomeMessage = styled.section`
 const Footer = styled.section`
   font-family: 'Raleway', sans-serif;
   min-width: 650px;
-  text-align: right;
+  text-align: center;
   padding: 70px 20px;
   font-size: 20px;
   color: #731A4B;
   background-color: #D9C7C5;
+  font-weight: 900;
 `;
