@@ -10,7 +10,7 @@ userController.logInUser = (req, res) => {
     email
   )
     .then(data => {
-      res.cookie('id', data.id);
+      // res.cookie('id', data.id);
       res.redirect('/projectpage');
     })
     .catch(error => {
@@ -20,7 +20,7 @@ userController.logInUser = (req, res) => {
         email
       ).then(data => {
         console.log('Successful user creation - your id is: ', data.id);
-        res.cookie('id', data.id);
+        // res.cookie('id', data.id);
         res.redirect('/projectpage');
         // Send user to homepage (how? res.sendFile(path.join(__dirname, './../index.html')) ?)
       });
@@ -29,7 +29,7 @@ userController.logInUser = (req, res) => {
 
 userController.logOutUser = (req, res) => {
   res.clearCookie('jwt');
-  res.clearCookie('email');
+  // res.clearCookie('email');
   res.redirect('/');
 };
 

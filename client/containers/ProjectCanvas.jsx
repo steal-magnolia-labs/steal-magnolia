@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import NodeInfoPanel from './NodeInfoPanel.jsx';
 import * as d3 from 'd3';
@@ -35,23 +36,27 @@ const ProjectCanvas = (props) => {
 
   //This is to keep track of the current project tree
   const [projectTree, UpdateProjectTree] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
   //This function will get the entire tree information
   //This will be called after every update
   useEffect(() => {
     // console.log('Got all the trees :)')
     const metaData = {
-    'method': 'GET',
-    'headers': {
-      'Content-Type': 'application/json'
-    },
+      'method': 'GET',
+      'headers': {
+        'Content-Type': 'application/json'
+      },
     };
 
     fetch(`/projects/${project_id}`, metaData)
-    .then(response => response.json())
-    .then(response => UpdateProjectTree(response))
-    .then(() => getProjectName())
-    .catch(err => console.log('Error ', err));
+      .then(response => response.json())
+      .then(response => {
+        if (Object.keys(response).length === 0) setRedirect(true);
+        else UpdateProjectTree(response);
+      })
+      .then(() => getProjectName())
+      .catch(err => console.log('Error ', err));
 
   }, [projectUpdate]);
 
@@ -93,43 +98,44 @@ const ProjectCanvas = (props) => {
   const [projectUpdate, setProjectUpdate] = useState(false);
 
 
-//This function will delete a node (and its children) from the database
-const deleteNode = (e) => {
-  const node_id = e.target.value;
-  console.log('node_id to delete is: ', node_id);
-  let currentNode = projectTree;
-  const findNode = (node = currentNode) => {
-    if (node.id == node_id) return currentNode = node;
-    node.children.forEach(child => findNode(child));
-  }
-  findNode();
-  
-  if (currentNode.children.length === 0) {
-    const metaData = {
-      'method': 'POST',
-      'headers': {
+  //This function will delete a node (and its children) from the database
+  const deleteNode = (e) => {
+    const node_id = e.target.value;
+    console.log('node_id to delete is: ', node_id);
+    let currentNode = projectTree;
+    const findNode = (node = currentNode) => {
+      if (node.id == node_id) return currentNode = node;
+      node.children.forEach(child => findNode(child));
+    }
+    findNode();
+
+    if (currentNode.children.length === 0) {
+      const metaData = {
+        'method': 'POST',
+        'headers': {
           'Content-Type': 'application/json'
-      },
-      'body': JSON.stringify({
-        query: `mutation{
+        },
+        'body': JSON.stringify({
+          query: `mutation{
           deleteNode(id:${node_id}){
             nodeId
           }
         }`
-      })
-    };
+        })
+      };
 
-    fetch('/graphql', metaData)
-      .then(response => response.json())
-      .then(response => {
-        console.log('Node successfully deleted');
-      })
-      .catch(err => console.log('Unable to delete node'));
-  } else {
-    alert('You cannot delete parent nodes!');
+      fetch('/graphql', metaData)
+        .then(response => response.json())
+        .then(response => {
+          console.log('Node successfully deleted');
+        })
+        .catch(err => console.log('Unable to delete node'));
+    } else {
+      alert('You cannot delete parent nodes!');
+    }
+
   }
 
-}
   //This function will update a current node to the database
   const updateNode = (e) => {
     e.preventDefault();
@@ -150,11 +156,11 @@ const deleteNode = (e) => {
     fetch(`/updateproject/${project_id}`, metaData)
       .then(response => response.json())
       .then((response) => {
-      if (projectUpdate) setProjectUpdate(false);
-      else setProjectUpdate(true);
+        if (projectUpdate) setProjectUpdate(false);
+        else setProjectUpdate(true);
       })
       .catch(err => console.log('err', err))
-    
+
     setProjectUpdate(true);
   };
 
@@ -172,7 +178,7 @@ const deleteNode = (e) => {
         changeProjectName(response[0].name);
       })
       .catch(err => console.log('err', err))
-      return () => console.log('finished updating project name');
+    return () => console.log('finished updating project name');
   };
 
   //This function will set the current node the user is viewing
@@ -189,7 +195,7 @@ const deleteNode = (e) => {
 
   // Change project name on form changes
   const onInputChangeProjectName = (e) => {
-    changeProjectName (e.target.value);
+    changeProjectName(e.target.value);
   };
 
   //This function will consistently update the current node on the form change
@@ -223,7 +229,7 @@ const deleteNode = (e) => {
 
   const root = d3.hierarchy(projectTree);
   const tree = d3.tree();
-  
+
   tree.size([800, 850]);
   tree(root);
   d3.select('svg g.nodes')
@@ -237,8 +243,8 @@ const deleteNode = (e) => {
     .attr('cx', function (d) { return d.x; })
     .attr('cy', function (d) { return d.y; })
     .attr('r', d => d.data.count === 'variable' ? 47.5 : 50)
-    .style('stroke-width', 2)
-  
+    .style('stroke-width', 2);
+
   d3.select('svg g.links')
     .selectAll('.link')
     .data(root.links())
@@ -260,7 +266,9 @@ const deleteNode = (e) => {
     return '#9DD3D9';
     })
     .on('click', setViewingNode)
-  
+
+  d3.selectAll('g.node.text').remove()
+
   d3.selectAll('g.node')
     .append('text')
     .text(d => d.data.name)
@@ -269,7 +277,7 @@ const deleteNode = (e) => {
     .attr('x', d => d.x)
     .attr('y', d => d.y)
     .attr('dy', '6px')
-  
+
   d3.selectAll('g.node')
     .filter(d => d.data.count === 'variable')
     .insert('circle', 'circle')
@@ -279,7 +287,7 @@ const deleteNode = (e) => {
     .attr('cx', d => d.x)
     .attr('cy', d => d.y)
     .attr('r', 52.5)
-  
+
   d3.selectAll('g.node')
     .filter(d => d.data.count === 'variable')
     .insert('circle', 'circle')
@@ -292,6 +300,7 @@ const deleteNode = (e) => {
   
   return (
     <ProjectPage>
+      {redirect && <Redirect to="/google-init" />}
       <div className="title-box">
         <ProjectTitle>Project: {projectName}</ProjectTitle>
         <TextField>
@@ -316,14 +325,14 @@ const deleteNode = (e) => {
           </g>
         </svg>
         </Canvas>
-        <NodeInfoPanel 
+        <NodeInfoPanel
           addNewNode={addNewNode}
           deleteNode={deleteNode}
-          onInputChangeState={onInputChangeState} 
-          onInputChangeProps={onInputChangeProps} 
-          onInputChangeCount={onInputChangeCount} 
-          onInputChangeName={onInputChangeName} 
-          saveProject={updateNode} 
+          onInputChangeState={onInputChangeState}
+          onInputChangeProps={onInputChangeProps}
+          onInputChangeCount={onInputChangeCount}
+          onInputChangeName={onInputChangeName}
+          saveProject={updateNode}
           currentNode={currentNode} />
       </BodyOfProject>
     </ProjectPage>
@@ -337,7 +346,7 @@ export default ProjectCanvas;
 const Canvas = styled.div`
   width: 1000px;
   background-color: #f8f9fb;
-` 
+`
 
 const BodyOfProject = styled.div`
   display: flex;
