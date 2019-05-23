@@ -72,34 +72,55 @@ const ProjectCanvas = (props) => {
     const deleteNode = (e) => {
       const node_id = e.target.value;
       console.log('node_id to delete is: ', node_id);
-      console.log('projectTree is: ', projectTree);
+      // console.log('projectTree is: ', projectTree);
 
-      /* fetch('/graphql', metaData)
-          .then(response => response.json())
-          .then(response => {
-            console.log('Node successfully deleted');
-          })
-          .catch(err => console.log('Unable to delete node'));
-          })
-      */
-      let projectTreeCopy = Object.assign({}, projectTree);
-      let currentNode = projectTreeCopy;
-      let deleted;
-      const findNode = (node = currentNode) => {
-        if (node.id === node_id) return currentNode = {};
-        node.children.forEach((child, index) => {
-          // console.log(`in forEach child.id is ${child.id}, node_id is ${node_id}`)
-          if (child.id == node_id) {
-            // console.log('found it');
-            return deleted = node.children.splice(index, 1);
-          } 
-          findNode(child);
-        });
-      }
-      findNode();
-      console.log('deleted is ', deleted);
-      console.log('projectTreeCopy after this operation is: ', projectTreeCopy);
-      UpdateProjectTree(projectTreeCopy);
+
+      // let currentNode = projectTree;
+      // const findNode = (node = currentNode) => {
+      //   if (node.id === node_id) return currentNode = node;
+      //   node.children.forEach(child => findNode(child));
+      // }
+      // findNode();
+
+
+      const metaData = {
+        'method': 'POST',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': JSON.stringify({
+          query: `mutation{
+            deleteNode(id:${node_id}){
+              nodeId
+            }
+          }`
+        })
+      };
+
+      fetch('/graphql', metaData)
+        .then(response => response.json())
+        .then(response => {
+          console.log('Node successfully deleted');
+        })
+        .catch(err => console.log('Unable to delete node'));
+
+
+      // let projectTreeCopy = Object.assign({}, projectTree);
+      // let currentNode = projectTreeCopy;
+      // let deleted;
+      // const findNode = (node = currentNode) => {
+      //   if (node.id === node_id) return currentNode = {};
+      //   node.children.forEach((child, index) => {
+      //     if (child.id == node_id) {
+      //       return deleted = node.children.splice(index, 1);
+      //     }
+      //     findNode(child);
+      //   });
+      // }
+      // findNode();
+      // console.log('deleted is ', deleted);
+      // console.log('projectTreeCopy after this operation is: ', projectTreeCopy);
+      // UpdateProjectTree(projectTreeCopy);
     }
 
     //This function will update a current node to the database
@@ -115,7 +136,7 @@ const ProjectCanvas = (props) => {
                 "name": e.target.elements.componentName.value,
                 "stateful": e.target.elements.stateful.checked,
                 "count": e.target.elements.componentCount.value,
-                "props": e.target.elements.props.value ? e.target.elements.props.value : '"',
+                "props": e.target.elements.props.value ? e.target.elements.props.value : '""',
             })
         };
 
