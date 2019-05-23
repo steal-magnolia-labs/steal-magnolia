@@ -1,6 +1,6 @@
 # Steal Magnolia
 
-The Steal Mangnolia project aims to reduce cognitive load while you develop your react app. Focus on what matters most. 
+The Steal Magnolia project aims to reduce cognitive load while you develop your react app. Focus on what matters most. 
 
 
 
