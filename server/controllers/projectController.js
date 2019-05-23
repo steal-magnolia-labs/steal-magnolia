@@ -3,9 +3,9 @@ const db = require('../database');
 
 const projectController = {};
 
-function buildTree(dbRows) {
+function buildTree (dbRows) {
   // Constructor function for new nodes
-  function TreeNode(node) {
+  function TreeNode (node) {
     this.id = node.id;
     this.project_id = node.project_id;
     this.parent_id = node.parent_id;
@@ -18,7 +18,7 @@ function buildTree(dbRows) {
   }
 
   // Method to insert a new node in the proper place in the tree structure (recursively if necessary)
-  TreeNode.prototype.add = function add(node) {
+  TreeNode.prototype.add = function add (node) {
     if (node.parent_id === this.id) return this.children.push(node);
     return this.children.forEach(child => child.add(node));
   };
@@ -35,9 +35,17 @@ function buildTree(dbRows) {
 }
 
 projectController.getAllProjects = (req, res) => {
-  const userId = req.cookies.id;
-  console.log('this is the userId', userId);
-  db.many('SELECT * FROM projects WHERE user_id = $1', userId)
+  const base64 = Buffer.from(req.cookies.jwt, 'base64').toString();
+  // console.log(base64);
+  const { email } = JSON.parse(base64);
+  // const userId = req.cookies.id;
+
+  // console.log('this is the email', email);
+  if (email === undefined) {
+    res.status(403);
+    res.send();
+  }
+  db.many('SELECT projects.* FROM projects join users on (projects.user_id = users.id) WHERE email = $1', email)
     .then(data => {
       console.log('Project info retrieved from db: ', data);
       const response = data.map(proj => {
@@ -136,23 +144,30 @@ projectController.retrieveProjectName = (req, res) => {
     console.log('data ', data)
     res.json(data);
   })
-  .catch(err => {
-    console.log('error in retrieving name: ', err);
-  });
+    .catch(err => {
+      console.log('error in retrieving name: ', err);
+    });
 };
 
 projectController.retrieveProject = (req, res) => {
+  const base64 = Buffer.from(req.cookies.jwt, 'base64').toString();
+  const { email } = JSON.parse(base64);
+
   const projectId = req.params.projectid;
   db.many(
-    `SELECT * FROM nodes 
-           WHERE project_id = $1
-           ORDER BY id`,
-    projectId
+    `SELECT nodes.*
+     FROM nodes 
+     join projects on(projects.id = nodes.project_id)
+     join users on(users.id = projects.user_id)
+     WHERE project_id = $1
+     AND email = $2
+     ORDER BY id;`,
+    [projectId, email]
   ).then(data => {
     const populatedTree = buildTree(data);
     console.log('populated tree is ', populatedTree);
     res.json(populatedTree);
-  });
+  }).catch(() => res.json({}));
 };
 
 projectController.newNode = (req, res) => {

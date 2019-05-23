@@ -12,6 +12,7 @@ const ProjectCards = ({ addNewProject }) => {
   });
   // This state tracks the list of project IDs and names
   const [allProjects, setAllProjects] = useState([]);
+  const [googleRedirect, setGoogleRedirect] = useState(false);
 
   // This function will fetch all the current projects (after render)
   // The response will be ID list of projects and their names
@@ -22,10 +23,16 @@ const ProjectCards = ({ addNewProject }) => {
         'Content-Type': 'application/json',
       },
     };
+    console.log('about to!')
 
     fetch('/getallprojects', metaData)
-      .then(response => response.json())
-      .then(response => setAllProjects(response))
+      .then(response => {
+        if (response.status === 403) setGoogleRedirect(true);
+        return response.json()
+      })
+      .then(response => {
+        setAllProjects(response)
+      })
       .catch(err => console.log('error in getting the projects', err));
   }, []);
 
@@ -57,6 +64,7 @@ const ProjectCards = ({ addNewProject }) => {
   return (
     <ProjectSection>
       {renderRedirect()}
+      {googleRedirect && <Redirect to="/google-init" />}
       <ProjectTitle >
         My projects:
         <NewProjectBtn onClick={addNewProject}> {' Start New Project '} </NewProjectBtn>
