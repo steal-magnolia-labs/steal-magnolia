@@ -92,6 +92,46 @@ const ProjectCanvas = (props) => {
   //This is to keep track of if the current tree has been updated
   const [projectUpdate, setProjectUpdate] = useState(false);
 
+
+//This function will delete a node (and its children) from the database
+const deleteNode = (e) => {
+  const node_id = e.target.value;
+  console.log('node_id to delete is: ', node_id);
+  let currentNode = projectTree;
+  const findNode = (node = currentNode) => {
+    if (node.id == node_id) return currentNode = node;
+    node.children.forEach(child => findNode(child));
+  }
+  findNode();
+  
+  if (currentNode.children.length === 0) {
+    const metaData = {
+      'method': 'POST',
+      'headers': {
+          'Content-Type': 'application/json'
+      },
+      'body': JSON.stringify({
+        query: `mutation{
+          deleteNode(id:${node_id}){
+            nodeId
+          }
+        }`
+      })
+    };
+
+    fetch('/graphql', metaData)
+      .then(response => response.json())
+      .then(response => {
+        console.log('Node successfully deleted');
+      })
+      .catch(err => console.log('Unable to delete node'));
+  } else {
+    alert('You cannot delete parent nodes!');
+  }
+
+}
+
+
   //This function will update a current node to the database
   const updateNode = (e) => {
     e.preventDefault();
@@ -130,7 +170,7 @@ const ProjectCanvas = (props) => {
     fetch(`/retrieveprojectname/${project_id}`, metaData)
       .then(response => response.json())
       .then((response) => {
-        console.log('response: ', response)
+        // console.log('response: ', response)
         changeProjectName(response[0].name);
       })
       .catch(err => console.log('err', err))
@@ -146,6 +186,7 @@ const ProjectCanvas = (props) => {
     node.children.forEach(child => findNode(child));
     }
     findNode();
+    console.log('node viewing now is : ', thisNode);
     changeCurrentNode(thisNode);
   };
 
@@ -252,7 +293,7 @@ const ProjectCanvas = (props) => {
     .attr('cy', d => d.y)
     .attr('r', 57.5);
 
-  console.log('project name: ', projectName)
+  // console.log('project name: ', projectName)
   
   return (
     <ProjectPage>
@@ -279,7 +320,8 @@ const ProjectCanvas = (props) => {
         </svg>
         </Canvas>
         <NodeInfoPanel 
-          addNewNode={addNewNode} 
+          addNewNode={addNewNode}
+          deleteNode={deleteNode}
           onInputChangeState={onInputChangeState} 
           onInputChangeProps={onInputChangeProps} 
           onInputChangeCount={onInputChangeCount} 

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const NodeInfoPanel = ({
   addNewNode,
+  deleteNode,
   saveProject,
   currentNode,
   onInputChangeName,
@@ -62,6 +63,9 @@ const NodeInfoPanel = ({
       <AddNodeBtn value={id} onClick={addNewNode}>
         Add Child Node
       </AddNodeBtn>
+      <DeleteNodeBtn value={id} onClick={deleteNode}>
+        Delete Node
+      </DeleteNodeBtn>
     </RightPanel>
   );
 };
@@ -102,6 +106,27 @@ const AddNodeBtn = styled.button`
     box-shadow: 1px 2px 10px grey;
   }
 `;
+
+const DeleteNodeBtn = styled.button`
+  border: 1px solid #680e4b;
+  border-radius: 3px;
+  padding: 10px;
+  width: auto;
+  color: white;
+  background-color: red;
+  transition: 0.3s;
+  margin-top: 25px;
+  margin-left: 50px;
+
+  :focus {
+    outline: none;
+  }
+
+  :hover {
+    box-shadow: 1px 2px 10px grey;
+  }
+`;
+
 const UpdateBtn = styled.button`
   border: 1px solid #680e4b;
   border-radius: 3px;
