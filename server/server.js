@@ -20,8 +20,8 @@ app.use(bodyParser.json());
 
 app.use('/build', express.static(path.join(__dirname, '../build')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
-app.get('/client/style.css', (req, res) =>
-  res.sendFile(path.join(__dirname, '../client/style.css'))
+app.get('/client/assets/style.css', (req, res) =>
+  res.sendFile(path.join(__dirname, '../client/assets/style.css'))
 );
 
 // This the qraphql endpoint

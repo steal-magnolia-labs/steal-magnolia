@@ -35,7 +35,7 @@ authController.getToken = (req, res, next) => {
       const base64 = Buffer.from(jwt, 'base64').toString();
       const { email } = JSON.parse(base64);
       res.locals.email = email;
-      res.cookie('email', email);
+      // res.cookie('email', email);
       
       // Oauth slides: 5. Server saves Token in Cookie
       res.cookie('jwt', jwt, { expires: new Date(Date.now() + 900000) });
