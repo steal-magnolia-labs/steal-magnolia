@@ -312,10 +312,10 @@ const ProjectCanvas = (props) => {
             onChange={(e) => onInputChangeProjectName(e)}
           />
         </TextField>
+        <UpdateBtn name="projectName" onClick={e => updateProjectName(e)}>
+          Submit
+        </UpdateBtn>
       </div>
-      <UpdateBtn name="projectName" onClick={e => updateProjectName(e)}>
-        Submit
-      </UpdateBtn>
       <BodyOfProject>
         <Canvas id="content">
           <svg width="1000" height="1000">
@@ -360,7 +360,7 @@ const BodyOfProject = styled.div`
 
 const ProjectTitle = styled.h1`
   margin: 20px 0px;
-  padding: 10px 10px;
+  padding: 10px 0px;
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
   font-size: 30px;
