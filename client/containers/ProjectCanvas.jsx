@@ -101,6 +101,8 @@ const ProjectCanvas = (props) => {
   //This function will delete a node (and its children) from the database
   const deleteNode = (e) => {
     const node_id = e.target.value;
+    console.log(projectTree.id)
+    if (node_id == projectTree.id) return alert('You cannot delete the root node of your project!');
     console.log('node_id to delete is: ', node_id);
     let currentNode = projectTree;
     const findNode = (node = currentNode) => {
