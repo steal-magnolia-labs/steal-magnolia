@@ -23,52 +23,57 @@ const NodeQuery = new GraphQLObjectType({
   fields: {
     node: {
       type: NodeType,
-      args: {id: { type: GraphQLInt },},
+      args: { id: { type: GraphQLInt }, },
       resolve(parent, args) {
         return db
           .query(`SELECT * FROM nodes WHERE id=${args.id}`)
-          .then(node => 
+          .then(node =>
             // when return data make it comes back in the form type field expects
-             ({nodeId:node[0].id})
-          ).catch(err =>{
-              console.error('Internal database error')
+            ({ nodeId: node[0].id })
+          ).catch(err => {
+            console.error('Internal database error')
           });
       },
     },
   },
 });
-function getTree(rootNodeid){
-    db.many(`SELECT project_id FROM nodes WHERE id = ${rootNodeid}`)
-    .then(projectID =>db.many(`SELECT * FROM nodes WHERE project_id = ${projectID[0].project_id}`).then(project =>{console.log(project)}))
+function getTree(rootNodeid) {
+  db.many(`SELECT project_id FROM nodes WHERE id = ${rootNodeid}`)
+    .then(projectID => db.many(`SELECT * FROM nodes WHERE project_id = ${projectID[0].project_id}`).then(project => { console.log(project) }))
     .catch(err => console.log(err))
 }
 
-async function deleteNodes (nodeID){
+async function deleteNodes(nodeID) {
 
-const parentNodeList = [nodeID];
-let nodeCount = 0;
-while (nodeCount <= parentNodeList.length){
-  await  db.query(`SELECT * FROM nodes WHERE parent_id=${parentNodeList[nodeCount]}`)
-    .then(nodes =>{
-        console.log('these are the nodes', nodes)
-        nodes.forEach(childNode =>{
-            parentNodeList.push(childNode.id);
+  console.log('nodeid joe', nodeID)
+  let parentNodeList = [nodeID];
+  let nodeCount = 0;
+  while (nodeCount < parentNodeList.length) {
+    await db.query(`SELECT * FROM nodes WHERE parent_id=${parentNodeList[nodeCount]}`)
+      .then(nodes => {
+        console.log('these are the nodes tev', nodes)
+        nodes.forEach(childNode => {
+          parentNodeList.push(childNode.id);
         })
-    }).catch(err => console.error('This node has no childern',parentNodeList[nodeCount]))
-    nodeCount+=1;
-}
+      }).catch(err => console.error('This node has no childern', parentNodeList[nodeCount]))
+    nodeCount += 1;
+  }
 
-parentNodeList.forEach((node ,index)=>{
-    if(index !== 0){
-        db.query(`DELETE FROM nodes WHERE id=${node}`);
-    }
-} )
-// console.log('This is the node list', parentNodeList);
-// try {await db.query('DElETE FROM nodes WHERE id IN VALUES (${nodeList}) ',{nodeList : parentNodeList})}
-// catch(error){
-//     console.log('error in the delete')
-// }
-return parentNodeList;
+  parentNodeList = parentNodeList.sort((a, b) => b - a);
+  console.log('this is the parentnodelist tevin', parentNodeList);
+  
+  parentNodeList.forEach(async (node, index) => {
+    // if (index !== 0) {
+      await db.query(`DELETE FROM nodes WHERE id=${node}`)
+      .catch(err => console.log(err));
+    // }
+  })
+  // console.log('This is the node list', parentNodeList);
+  // try {await db.query('DElETE FROM nodes WHERE id IN VALUES (${nodeList}) ',{nodeList : parentNodeList})}
+  // catch(error){
+  //     console.log('error in the delete')
+  // }
+  return parentNodeList;
 }
 
 const NodeMutation = new GraphQLObjectType({
@@ -79,9 +84,9 @@ const NodeMutation = new GraphQLObjectType({
       args: { id: { type: GraphQLInt } },
       resolve(parent, args) {
         return deleteNodes(args.id).then(deletedNodes => {
-            console.log('this is the tree',getTree(args.id));
-           return {nodeId: String(deletedNodes)}
-        } ).catch(err => console.log('nodes not deleted'));
+          console.log('this is the tree', getTree(args.id));
+          return { nodeId: String(deletedNodes) }
+        }).catch(err => console.log('nodes not deleted'));
       },
     },
   },
