@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import google from '../images/google.png';
+import logo from '../images/group.png';
 
 const Login = () => {
   let [redirectNeeded, setRedirectNeeded] = useState(false);
@@ -21,48 +23,47 @@ const Login = () => {
   };
 
   return (
-    <LoginScreen>
-      <WelcomeMessage>Welcome to <u>Steal</u> Magnolia Labs</WelcomeMessage>
-      <LoginBtn onClick={authorizeWithGoogle}>Login with Google</LoginBtn>
-      {redirectNeeded && <Redirect to="/google-init" />}
-    </LoginScreen>
+    <div className='login-container'>
+      <div className='login-screen'>
+        <div className='welcome-box'>
+          <WelcomeMessage className="welcome"><u>STEAL</u> MAGNOLIA
+          </WelcomeMessage>
+          <img className="logo" id="rotating" src={logo} />
+          <img className="google-button" src={google} onClick={authorizeWithGoogle} />
+          {redirectNeeded && <Redirect to="/google-init" />}
+        </div>
+      </div>
+      <Footer>
+        <span className='labs'>Steal Magnolia Labs</span>   Copyright 2019
+      </Footer>
+    </div>
   );
 };
 
 export default Login;
 
 const LoginBtn = styled.button`
-  font-family: 'Raleway', sans-serif;
-  padding: 10px;
-  border-radius: 3px;
-  margin: 10px;
-  font-size: 18px;
-
-  :focus {
-    outline: none;
-  }
-
-  :hover {
-    box-shadow: 1px 2px 4px grey;
-  }
-`;
-
-const LoginScreen = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
-  background-color: #f8f9fb;
-  border-radius: 3px;
+  background-image: url(${google}); 
 `;
 
 const WelcomeMessage = styled.section`
   font-family: 'Raleway', sans-serif;
   min-width: 650px;
-  border: 1px solid black;
   text-align: center;
+  color: #731A4B;
   padding: 70px 0px;
-  font-size: 40px;
-  background-color: white;
+  font-size: 90px;
+  font-weight: 900;
+  letter-spacing: 3px;
+`;
+
+const Footer = styled.section`
+  font-family: 'Raleway', sans-serif;
+  min-width: 650px;
+  text-align: center;
+  padding: 70px 20px;
+  font-size: 20px;
+  color: #731A4B;
+  background-color: #D9C7C5;
+  font-weight: 900;
 `;

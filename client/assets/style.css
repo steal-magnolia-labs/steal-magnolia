@@ -4,18 +4,14 @@
     padding: 0;
 }
 
+html, body, #app, #app>div {
+  height: 100%
+}
+
 .link,
-.right-link {
+.header-link {
     text-decoration: none;
     color: white;
-}
-
-.right-link {
-    margin: 0px 10px;
-}
-
-.right-link:hover {
-    font-weight: bold;
 }
 
 .field:focus {
@@ -27,7 +23,6 @@
     border-bottom: 1px solid #283044;
     padding: 5px;
     font-family: 'Raleway', sans-serif;
-    font-weight: bold;
     font-size: 18px;
 }
 
@@ -43,10 +38,9 @@ text {
   text-anchor: middle;
   font-family: 'SF Pro Display';
   font-size: 16px;
-  font-weight: bold;
 }
 text.stateful {
-  fill: #B78A23;
+  fill: white;
 }
 
 text:hover {
@@ -54,4 +48,81 @@ text:hover {
 }
 circle:hover {
   cursor: pointer;
+}
+
+.google-button {
+  margin-top: 30px;
+  width: 400px;
+}
+
+.google-button:hover {
+  cursor: pointer;
+}
+
+.logo {
+  height: 200px;
+  margin-bottom: 40px;
+}
+
+#rotating {
+  -webkit-animation: rotation 5s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+  from {
+      -webkit-transform: rotate(0deg);
+  }
+  to {
+      -webkit-transform: rotate(359deg);
+  }
+}
+
+.nav-container {
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  font-family: 'Raleway', sans-serif;
+  color: #731A4B;
+  padding: 20px;
+  border-radius: 3px;
+}
+
+.login-container {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr;
+}
+
+.welcome-box {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+}
+
+.login-screen {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  background-color: #f8f9fb;
+}  
+
+.header-link {
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  margin-left: 15px;
+  color: #731A4B;
+}
+
+.header-link:hover {
+  cursor: pointer;
+}
+
+.labs {
+  font-size: 30px;
+  letter-spacing: 2px;
+  margin-right: 10px;
+  font-weight: 400;
 }

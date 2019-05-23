@@ -12,41 +12,37 @@ const TitleBarComponent = () => {
 
   return (
     <Header>
-      <Link className="link" to="/">
-        <Logo>Steal Magnolia</Logo>
-      </Link>
-      <RightNav>
-        <Link className="right-link" to="/projectpage">Projects</Link>
-        <LogoutBtn className="right-link" onClick={logoutOnClickFunction} >Logout</LogoutBtn>
-      </RightNav>
+      <div className='nav-container'>
+        <Link className="link" to="/">
+          <Logo>Steal Magnolia</Logo>
+        </Link>
+        <RightNav>
+          <Link className="header-link" to="/projectpage">Projects</Link>
+          <LogoutBtn className="header-link" onClick={logoutOnClickFunction} >Logout</LogoutBtn>
+        </RightNav>
+      </div>
     </Header>
   )
 }
 
 const LogoutBtn = styled.button`
-  background-color: #847996;
+  background: none;
   border: none;
-  font-family: 'Raleway', sans-serif;
-  font-size: 16px;
   :focus{
     outline: none;
   }
 `
 
 const Header = styled.header`
+    background-color: #D9C7C5;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-family: 'Raleway', sans-serif;
-    padding: 20px;
-    border-radius: 3px;
-    background-color: #847996;
+    justify-content: center;
 `
 
 const Logo = styled.h2`
   font-family: 'Raleway', sans-serif;
-  color: white;
+  font-weight: 400;
+  color: #731A4B;
 `
 
 const RightNav = styled.div`
