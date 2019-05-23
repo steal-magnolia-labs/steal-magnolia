@@ -240,7 +240,7 @@ const deleteNode = (e) => {
     .attr('cx', function (d) { return d.x; })
     .attr('cy', function (d) { return d.y; })
     .attr('r', d => d.data.count === 'variable' ? 47.5 : 50)
-    .style('stroke-width', 2); 
+    .style('stroke-width', 2)
   
   d3.select('svg g.links')
     .selectAll('.link')
@@ -251,18 +251,19 @@ const deleteNode = (e) => {
     .attr('x1', d => d.source.x)
     .attr('y1', d => d.source.y)
     .attr('x2', d => d.target.x)
-    .attr('y2', d => d.target.y);
+    .attr('y2', d => d.target.y)
   
   d3.selectAll('circle')
     .style('fill', (d) => {
-    if (d.data.stateful) return '#F6E2B7';
-    return '#F7F5F4';
+    if (d.data.stateful) return '#234D51';
+    return '#59C6D1';
     })
     .style('stroke', (d) => {
-    if (d.data.stateful) return '#EEC25D';
-    return '#CDC5C1';
+    if (d.data.stateful) return '#3B4F51';
+    return '#9DD3D9';
     })
     .on('click', setViewingNode)
+
   
   d3.selectAll('g.node')
     .append('text')
@@ -292,8 +293,6 @@ const deleteNode = (e) => {
     .attr('cx', d => d.x)
     .attr('cy', d => d.y)
     .attr('r', 57.5);
-
-  // console.log('project name: ', projectName)
   
   return (
     <ProjectPage>
@@ -377,11 +376,9 @@ const UpdateBtn = styled.button`
   transition: 0.3s;
   margin-top: 15px;
   background-color: #680e4b;
-
   :focus {
     outline: none;
   }
-
   :hover {
     box-shadow: 1px 2px 10px grey;
   }

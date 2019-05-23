@@ -46,12 +46,21 @@ text {
   font-weight: bold;
 }
 text.stateful {
-  fill: #B78A23;
+  fill: white;
 }
 
 text:hover {
   cursor: pointer;
 }
 circle:hover {
+  cursor: pointer;
+}
+
+.google-button {
+  margin-top: 30px;
+  width: 400px;
+}
+
+.google-button:hover {
   cursor: pointer;
 }

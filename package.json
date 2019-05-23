@@ -28,7 +28,9 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
-    "nodemon": "^1.19.0"
+    "file-loader": "^3.0.1",
+    "nodemon": "^1.19.0",
+    "url-loader": "^1.1.2"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
