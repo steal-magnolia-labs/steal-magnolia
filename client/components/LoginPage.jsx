@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import google from '../images/google.png';
 
 const Login = () => {
   let [redirectNeeded, setRedirectNeeded] = useState(false);
@@ -21,30 +22,20 @@ const Login = () => {
   };
 
   return (
-    <LoginScreen>
-      <WelcomeMessage>Welcome to <u>Steal</u> Magnolia Labs</WelcomeMessage>
-      <LoginBtn onClick={authorizeWithGoogle}>Login with Google</LoginBtn>
-      {redirectNeeded && <Redirect to="/google-init" />}
-    </LoginScreen>
+    <>
+      <LoginScreen>
+        <WelcomeMessage className="welcome">Welcome to <u>Steal</u> Magnolia Labs</WelcomeMessage>
+        <img className="google-button" src={google} onClick={authorizeWithGoogle} />
+        {redirectNeeded && <Redirect to="/google-init" />}
+      </LoginScreen>
+    </>
   );
 };
 
 export default Login;
 
 const LoginBtn = styled.button`
-  font-family: 'Raleway', sans-serif;
-  padding: 10px;
-  border-radius: 3px;
-  margin: 10px;
-  font-size: 18px;
-
-  :focus {
-    outline: none;
-  }
-
-  :hover {
-    box-shadow: 1px 2px 4px grey;
-  }
+  background-image: url(${google}); 
 `;
 
 const LoginScreen = styled.div`

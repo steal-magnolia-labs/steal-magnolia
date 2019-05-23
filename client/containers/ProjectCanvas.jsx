@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import NodeInfoPanel from './NodeInfoPanel.jsx';
 import * as d3 from 'd3';
@@ -32,6 +32,27 @@ const ProjectCanvas = (props) => {
 
   //This is to keep track of the project name
   const [projectName, changeProjectName] = useState("");
+
+  // Attempt at auto refresh
+  const useInterval = (callback, delay) => {
+    const savedCallback = useRef();
+  
+    // Remember the latest callback.
+    useEffect(() => {
+      savedCallback.current = callback;
+    }, [callback]);
+  
+    // Set up the interval.
+    useEffect(() => {
+      function tick() {
+        savedCallback.current();
+      }
+      if (delay !== null) {
+        let id = setInterval(tick, delay);
+        return () => clearInterval(id);
+      }
+    }, [delay]);
+  }
 
   //This is to keep track of the current project tree
   const [projectTree, UpdateProjectTree] = useState([]);
@@ -199,7 +220,7 @@ const ProjectCanvas = (props) => {
     .attr('cx', function (d) { return d.x; })
     .attr('cy', function (d) { return d.y; })
     .attr('r', d => d.data.count === 'variable' ? 47.5 : 50)
-    .style('stroke-width', 2); 
+    .style('stroke-width', 2)
   
   d3.select('svg g.links')
     .selectAll('.link')
@@ -210,18 +231,19 @@ const ProjectCanvas = (props) => {
     .attr('x1', d => d.source.x)
     .attr('y1', d => d.source.y)
     .attr('x2', d => d.target.x)
-    .attr('y2', d => d.target.y);
+    .attr('y2', d => d.target.y)
   
   d3.selectAll('circle')
     .style('fill', (d) => {
-    if (d.data.stateful) return '#F6E2B7';
-    return '#F7F5F4';
+    if (d.data.stateful) return '#234D51';
+    return '#59C6D1';
     })
     .style('stroke', (d) => {
-    if (d.data.stateful) return '#EEC25D';
-    return '#CDC5C1';
+    if (d.data.stateful) return '#3B4F51';
+    return '#9DD3D9';
     })
     .on('click', setViewingNode)
+
   
   d3.selectAll('g.node')
     .append('text')
