@@ -2,9 +2,9 @@ import styled from 'styled-components';
 
 const ProjectCardComponent = styled.button`
 width: 200px;
-padding: 50px 10px 50px 10px;
+height: 200px;
 background-color: #336e7b;
-border-radius: 1px;
+border-radius: 50%;
 color: white;
 font-family: 'Raleway', sans-serif;
 transition: 0.3s;
@@ -15,8 +15,10 @@ font-size: 20px;
 }
 
 :hover {
-  box-shadow: 1px 2px 10px grey;
+  box-shadow:  0px 3px 5px #black;
+  background-color: #731A4B;
   font-weight: bold;
+  cursor: pointer;
 }
 `;
 

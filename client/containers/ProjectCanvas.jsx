@@ -356,6 +356,7 @@ const ProjectTitle = styled.h1`
   margin: 20px 0px;
   padding: 10px 10px;
   font-family: 'Raleway', sans-serif;
+  font-weight: 400;
   font-size: 30px;
   border-bottom: 1px solid grey;
 `
