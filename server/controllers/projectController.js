@@ -111,6 +111,36 @@ projectController.updateProject = (req, res) => {
   //   });
 };
 
+projectController.updateProjectName = (req, res) => {
+  const { id, name } = req.body;
+  const yoQuery = `UPDATE projects
+     SET name = '${name}'
+     WHERE id = ${id};`
+  db.query(yoQuery)
+    .then(resp => {
+      if (resp.length !== 0) console.log('the response is:', resp)
+    })
+    .catch(err => {
+      console.log('Your database update query was:', yoQuery);
+      console.log(' error is ', err);
+    });
+};
+
+projectController.retrieveProjectName = (req, res) => {
+  const projectId = req.params.projectid;
+  db.query(
+    `SELECT name FROM projects 
+           WHERE id = $1;`,
+    projectId
+  ).then(data => {
+    console.log('data ', data)
+    res.json(data);
+  })
+  .catch(err => {
+    console.log('error in retrieving name: ', err);
+  });
+};
+
 projectController.retrieveProject = (req, res) => {
   const projectId = req.params.projectid;
   db.many(
